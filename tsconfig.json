@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "ES2023",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "strict": true,
+        "skipLibCheck": true,
+        "noEmit": true,
+        "lib": ["ES2023", "DOM", "DOM.Iterable"],
+        "jsx": "react-jsx",
+        "types": ["bun"]
+    },
+    "include": [
+        "src",
+        "tokens/src",
+        "tokens/scripts",
+        "tokens/test"
+    ]
+}
