@@ -5,9 +5,12 @@ import type {
 } from "react"
 import { cn } from "../../lib/class-names"
 
+export type ContentViewVariant = keyof typeof variants
+export type ContentViewHeadingLevel = "h1" | "h2" | "h3"
+
 type ContentViewProps =
     ComponentPropsWithoutRef<"section"> & {
-        variant?: keyof typeof variants
+        variant?: ContentViewVariant
     }
 
 type RowProps = ComponentPropsWithoutRef<"div">
@@ -21,7 +24,7 @@ type HeaderProps = PropsWithChildren<{
     icon?: ReactNode
     action?: ReactNode
     actionClassName?: string
-    as?: "h1" | "h2" | "h3"
+    as?: ContentViewHeadingLevel
     className?: string
 }>
 

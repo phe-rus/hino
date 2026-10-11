@@ -1,13 +1,15 @@
 import type { ReactNode } from "react"
 import { cn } from "../../lib/class-names"
 
+export type StatTileTone = "critical"
+
 type StatTileProps = {
     label: string
     value: number
     /** A quiet line under the number, like "3 signed in now". */
     caption?: ReactNode
     /** Turns the number red once it's above zero. */
-    tone?: "critical"
+    tone?: StatTileTone
     /** Makes the tile a toggle, e.g. a filter. */
     onClick?: () => void
     active?: boolean

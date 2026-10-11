@@ -11,6 +11,9 @@ export * from "./components/chip/chip"
 export * from "./components/context-menu/context-menu-host"
 export {
     type ContextMenuItem,
+    type ContextMenuAlignX,
+    type ContextMenuAlignY,
+    type ContextMenuEdge,
     closeContextMenu,
     openContextMenu,
     openFollowUpMenu,
@@ -49,7 +52,17 @@ export * from "./lib/class-names"
 export * from "./lib/haptics"
 export * from "./lib/screen-edges"
 export * from "./motion/transitions"
+export * from "./appearance"
 
 export * from "./components/date-picker/date-picker"
 
 export { Dialog } from "./components/dialog"
+export type {
+    DialogPresentation,
+    DialogTone,
+} from "./components/dialog/dialog"
+export type {
+    ContentViewHeadingLevel,
+    ContentViewVariant,
+} from "./components/content-view/content-view"
+export type { StatTileTone } from "./components/stat-tile/stat-tile"

@@ -7,9 +7,9 @@
   * {
     @apply border-separator outline-accent/50;
     transition:
-      background-color 0.3s ease,
-      color 0.3s ease,
-      border-color 0.3s ease;
+      background-color var(--duration-normal) var(--ease-standard),
+      color var(--duration-normal) var(--ease-standard),
+      border-color var(--duration-normal) var(--ease-standard);
     scrollbar-width: none;
     scrollbar-color: var(--color-separator) transparent;
   }
@@ -28,8 +28,8 @@
     height: 100%;
     overscroll-behavior: none;
     transition:
-      background-color 0.3s ease,
-      color 0.3s ease;
+      background-color var(--duration-normal) var(--ease-standard),
+      color var(--duration-normal) var(--ease-standard);
   }
 
   input:-webkit-autofill,
@@ -77,4 +77,15 @@ body::-webkit-scrollbar {
 
 div {
   @apply no-scrollbar;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

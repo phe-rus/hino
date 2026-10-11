@@ -5,8 +5,6 @@ import {
     useReducedMotion,
 } from "motion/react"
 import { createPortal } from "react-dom"
-import { HugeiconsIcon } from "@hugeicons/react"
-import { Loading03Icon } from "@hugeicons/core-free-icons"
 import { Button } from "@hino/ui/button"
 import { cn } from "@hino/ui/cn"
 import {
@@ -18,6 +16,12 @@ import {
 } from "react"
 
 const CloseContext = createContext<() => void>(() => {})
+export type DialogPresentation =
+    | "drawer"
+    | "center"
+    | "inline"
+export type DialogTone = "default" | "destructive"
+
 type DialogProps = {
     open: boolean
     onOpenChange: (open: boolean) => void
@@ -25,8 +29,7 @@ type DialogProps = {
     description?: ReactNode
     children?: ReactNode
     footer?: ReactNode
-    swipeDirection?: "left" | "right" | "up" | "down"
-    presentation?: "drawer" | "center" | "inline"
+    presentation?: DialogPresentation
     className?: string
     onSubmit?: (event: FormEvent<HTMLFormElement>) => void
 }
@@ -35,7 +38,7 @@ type ActionsProps = {
     cancelLabel: ReactNode
     pending?: boolean
     disabled?: boolean
-    tone?: "default" | "destructive"
+    tone?: DialogTone
     onConfirm?: () => void
 }
 
@@ -170,22 +173,17 @@ function Actions({
                 variant={
                     tone === "destructive"
                         ? "ghost"
-                        : "primary"
+                        : "default"
                 }
                 className={
                     tone === "destructive"
                         ? "bg-danger/10 text-danger"
                         : undefined
                 }
-                disabled={pending || disabled}
+                isPending={pending}
+                disabled={disabled}
                 onClick={onConfirm}
             >
-                {pending && (
-                    <HugeiconsIcon
-                        icon={Loading03Icon}
-                        className="animate-spin"
-                    />
-                )}
                 {submitLabel}
             </Button>
             <Button

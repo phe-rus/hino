@@ -12,6 +12,7 @@
     },
     "include": [
         "src",
+        "test",
         "tokens/src",
         "tokens/scripts",
         "tokens/test"

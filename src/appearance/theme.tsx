@@ -33,8 +33,10 @@ export type UseThemeProps = {
     /** Active theme name */
     theme?: string | undefined
     /** If enableSystem is true, returns the System theme preference ("dark" or "light"), regardless what the active theme is */
-    systemTheme?: "dark" | "light" | undefined
+    systemTheme?: SystemTheme | undefined
 }
+
+export type SystemTheme = "dark" | "light"
 
 export type Attribute = `data-${string}` | "class"
 

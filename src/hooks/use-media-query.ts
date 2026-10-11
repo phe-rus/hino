@@ -10,8 +10,8 @@ const BREAKPOINTS = {
     xl: 1280,
 } as const
 
-type Breakpoint = keyof typeof BREAKPOINTS
-type BreakpointQuery =
+export type Breakpoint = keyof typeof BREAKPOINTS
+export type BreakpointQuery =
     | Breakpoint
     | `max-${Breakpoint}`
     | `${Breakpoint}:max-${Breakpoint}`
@@ -68,8 +68,10 @@ export type MediaQueryInput = {
     min?: Breakpoint | number
     max?: Breakpoint | number
     /** Touch-like input (finger). Use "fine" for mouse/trackpad. */
-    pointer?: "coarse" | "fine"
+    pointer?: PointerPrecision
 }
+
+export type PointerPrecision = "coarse" | "fine"
 
 export function useMediaQuery(
     query: BreakpointQuery | MediaQueryInput | (string & {})

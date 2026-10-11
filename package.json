@@ -37,7 +37,7 @@
         "./date": "./src/lib/date.ts",
         "./language": "./src/lib/language.ts",
         "./shapes": "./src/lib/shapes.ts",
-        "./appearance": "./src/appearance/theme.tsx",
+        "./appearance": "./src/appearance/index.ts",
         "./use-media-query": "./src/hooks/use-media-query.ts",
         "./typeset.css": "./src/styles/typeset.css",
         "./application.css": "./src/styles/application.css",

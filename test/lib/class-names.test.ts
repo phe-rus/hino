@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test"
-import { cn } from "./class-names"
+import { cn } from "../../src/lib/class-names"
 
 test("keeps semantic text size and color utilities together", () => {
     expect(

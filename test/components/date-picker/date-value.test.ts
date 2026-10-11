@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test"
-import { dateValue } from "./date-value"
+import { dateValue } from "../../../src/components/date-picker/date-value"
 
 test("preserves date-only values and pads segments", () => {
     expect(dateValue("1998", "2", "3")).toBe("1998-02-03")

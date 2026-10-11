@@ -217,7 +217,7 @@ function Composer({
                 />
                 <IconButton
                     type="submit"
-                    size="md"
+                    size="icon-xs"
                     disabled={!ready}
                     label={sendLabel}
                     className="size-8 shrink-0 rounded-full"

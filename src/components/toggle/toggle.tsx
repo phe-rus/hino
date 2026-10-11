@@ -4,6 +4,8 @@ import { cn } from "../../lib/class-names"
 import { haptic } from "../../lib/haptics"
 import { spring } from "../../motion/transitions"
 
+export type ToggleStyle = "switch" | "checkbox"
+
 export function Toggle({
     checked,
     onChange,
@@ -18,7 +20,7 @@ export function Toggle({
     label: string
     /** Shown but not yet usable, as iOS dims a switch it can't change. */
     disabled?: boolean
-    style?: "switch" | "checkbox"
+    style?: ToggleStyle
     mixed?: boolean
     labelHidden?: boolean
 }) {

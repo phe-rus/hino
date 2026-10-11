@@ -1,5 +1,9 @@
 import type { ReactNode } from "react"
 
+export type ContextMenuAlignX = "start" | "end"
+export type ContextMenuAlignY = "top" | "bottom"
+export type ContextMenuEdge = "leading" | "trailing"
+
 /** One row of a context menu, or a divider between groups of rows. */
 export type ContextMenuItem =
     | {
@@ -23,9 +27,9 @@ export interface OpenMenu {
     /** Opened by long-press: bigger rows for fingers. */
     touch: boolean
     /** Which edge of the menu sits at `x`: its left (`start`) or its right (`end`). */
-    alignX: "start" | "end"
+    alignX: ContextMenuAlignX
     /** Which edge of the menu sits at `y`: its top (`top`) or its bottom (`bottom`). */
-    alignY: "top" | "bottom"
+    alignY: ContextMenuAlignY
 }
 
 let menu: OpenMenu | null = null
@@ -85,7 +89,7 @@ export function openMenu(
     {
         edge = "leading",
         above = false,
-    }: { edge?: "leading" | "trailing"; above?: boolean } = {}
+    }: { edge?: ContextMenuEdge; above?: boolean } = {}
 ) {
     const rect = anchor.getBoundingClientRect()
     const rtl = getComputedStyle(anchor).direction === "rtl"

@@ -9,10 +9,12 @@ import { cn } from "../../lib/class-names"
 import { screenEdges } from "../../lib/screen-edges"
 import { popoverMotion } from "../../motion/transitions"
 
+export type PopoverOrigin = "top-left" | "top-right"
+
 export interface PopoverProps extends HTMLMotionProps<"div"> {
     open: boolean
     /** Which corner the popover grows from. */
-    origin?: "top-left" | "top-right"
+    origin?: PopoverOrigin
 }
 
 /**
