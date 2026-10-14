@@ -29,3 +29,5 @@ The website, catalog prose, tests and reusable packages share this public reposi
 ## Checks
 
 `bun run test` (snippet generator and search fallbacks), `bun run typecheck`, `bun run build`. `../packages/ui`'s `bun test` covers the registry rules and example file names.
+
+Page metadata lives in `domains/seo/get-page-head.ts`: canonical URLs omit playground search params, with Open Graph and Twitter summary cards using the Hino logo. Preview routes remain noindex. Installation instructions cover the public CLI and manual setup; keep generated AI setup text aligned.

@@ -30,7 +30,7 @@ export const guides: readonly Guide[] = [
         slug: "installation",
         title: "Installation",
         summary:
-            "Add Hino to an app, load its styles and mount its hosts.",
+            "Set up any React app with the Hino CLI, create a starter, or install manually.",
         path: "/docs/installation",
         icon: Download01Icon,
     },

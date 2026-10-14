@@ -30,6 +30,31 @@ export function InstallationGuide() {
 bunx @phe-rus/hino-cli create my-app
 bunx @phe-rus/hino-cli create my-app --template tanstack`}
                 />
+                <Prose>
+                    Existing projects get hino/styles.css,
+                    hino/providers.tsx and hino/README.md.
+                    Follow that README to wire your app root
+                    and Tailwind pipeline; init preserves your
+                    routes and bundler configuration. Add
+                    --integration tanstack for the optional
+                    integration, --no-install to skip
+                    installing, or --dry-run to inspect the
+                    plan first.
+                </Prose>
+                <CodeBlock
+                    lang="shellscript"
+                    code={`# Other package managers
+npx @phe-rus/hino-cli init
+pnpm dlx @phe-rus/hino-cli init
+
+# Optional TanStack integration
+bunx @phe-rus/hino-cli init --integration tanstack`}
+                />
+                <Prose>
+                    Prefer manual setup? Install the packages
+                    below, configure Tailwind CSS 4 and follow
+                    the styles and root setup sections.
+                </Prose>
                 <Steps
                     steps={[
                         {

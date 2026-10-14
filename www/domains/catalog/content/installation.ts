@@ -3,8 +3,8 @@ import type { InstallStep } from "../types"
 /** The same for every component: add the package, then its styles. */
 export const installSteps: InstallStep[] = [
     {
-        title: "Add Hino from public npm.",
-        code: "bun add @phe-rus/hino",
+        title: "Use the CLI, or install Hino manually.",
+        code: "bunx @phe-rus/hino-cli init\n\n# Manual alternative\nbun add @phe-rus/hino",
         lang: "shellscript",
     },
     {

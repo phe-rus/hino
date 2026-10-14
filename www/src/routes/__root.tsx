@@ -21,13 +21,7 @@ export const Route = createRootRoute({
                 content:
                     "width=device-width, initial-scale=1",
             },
-            { title: "Hino" },
             { name: "theme-color", content: "#d16988" },
-            {
-                name: "description",
-                content:
-                    "Hino, the Pherus design system: native React controls and design tokens, live.",
-            },
         ],
         links: [
             { rel: "stylesheet", href: tailwind },

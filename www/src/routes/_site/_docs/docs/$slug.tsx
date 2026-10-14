@@ -1,3 +1,4 @@
+import { getPageHead } from "@/domains/seo/get-page-head"
 import { ComponentNotFound } from "@/domains/catalog"
 import { GuidePage, getGuide } from "@/domains/guides"
 import {
@@ -11,17 +12,12 @@ export const Route = createFileRoute(
     loader: ({ params }) => {
         if (!getGuide(params.slug)) throw notFound()
     },
-    head: ({ params }) => ({
-        meta: [
-            {
-                title: `${getGuide(params.slug)?.title ?? "Not found"} · Hino`,
-            },
-            {
-                name: "description",
-                content: getGuide(params.slug)?.summary ?? "",
-            },
-        ],
-    }),
+    head: ({ params }) =>
+        getPageHead(
+            `/docs/${params.slug}`,
+            `${getGuide(params.slug)?.title ?? "Not found"} · Hino`,
+            getGuide(params.slug)?.summary ?? ""
+        ),
     notFoundComponent: ComponentNotFound,
     component: RouteComponent,
 })

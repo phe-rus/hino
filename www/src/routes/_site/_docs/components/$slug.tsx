@@ -1,3 +1,4 @@
+import { getPageHead } from "@/domains/seo/get-page-head"
 import {
     ComponentNotFound,
     ComponentPage,
@@ -20,19 +21,12 @@ export const Route = createFileRoute(
     loader: ({ params }) => {
         if (!getEntry(params.slug)) throw notFound()
     },
-    head: ({ params }) => ({
-        meta: [
-            {
-                title: `${getEntry(params.slug)?.docs.name ?? "Not found"} · Hino`,
-            },
-            {
-                name: "description",
-                content:
-                    getEntry(params.slug)?.content.summary ??
-                    "",
-            },
-        ],
-    }),
+    head: ({ params }) =>
+        getPageHead(
+            `/components/${params.slug}`,
+            `${getEntry(params.slug)?.docs.name ?? "Not found"} · Hino`,
+            getEntry(params.slug)?.content.summary ?? ""
+        ),
     notFoundComponent: ComponentNotFound,
     component: RouteComponent,
 })
