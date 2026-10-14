@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { version } from "../package.json"
 import { parseArgs } from "node:util"
 import { resolve } from "node:path"
 import {
@@ -47,7 +48,7 @@ async function main() {
         return
     }
     if (values.version) {
-        console.log("0.1.0")
+        console.log(version)
         return
     }
     const [command, destination, ...extra] = positionals

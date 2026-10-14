@@ -1,4 +1,5 @@
 import { afterEach, expect, test } from "bun:test"
+import { version } from "../package.json"
 import {
     mkdtemp,
     readdir,
@@ -28,7 +29,7 @@ afterEach(async () => {
 
 test("help and errors have predictable exit status", () => {
     expect(run(["--help"]).status).toBe(0)
-    expect(run(["--version"]).stdout.trim()).toBe("0.1.0")
+    expect(run(["--version"]).stdout.trim()).toBe(version)
     expect(run(["create"]).status).toBe(1)
     expect(run(["init", "--pm", "unknown"]).status).toBe(1)
     expect(run(["init", "--unknown"]).status).toBe(1)

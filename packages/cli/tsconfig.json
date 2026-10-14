@@ -6,7 +6,8 @@
         "strict": true,
         "skipLibCheck": true,
         "noEmit": true,
-        "types": ["bun", "node"]
+        "types": ["bun", "node"],
+        "resolveJsonModule": true
     },
     "include": ["src", "test"]
 }

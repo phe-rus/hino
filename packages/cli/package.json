@@ -1,6 +1,6 @@
 {
     "name": "@phe-rus/hino-cli",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Set up Hino in React projects and create Hino starters.",
     "type": "module",
     "license": "MIT",
