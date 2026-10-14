@@ -18,3 +18,7 @@ Destination adapters: standalone package tsconfigs, Pherus React/TypeScript cata
 Pass, Accounts and www now import native Hino controls directly. TanStack form/table/router integration lives separately in `../tanstack/`, not in a second UI library. www retains its existing presentation. The initial isolated Pass sign-in stage is superseded.
 
 Local shared-component deltas include reduced-motion handling in Sheet, Picker and Popover, the smoother Picker spring and Popover transform-origin alignment. Reconcile these with Notables before advancing the recorded source revision; they are not included in revision 512f730. Further local deltas: native DatePicker, TextField/TextEditor/SecureField, ProfileImage, Table, SearchList, TabView, Button styling, mixed-state Toggle, shared presentation components, persisted appearance and conflict-aware cn. `packages/ui` and its compatibility controls are removed. Website styling remains in www/styles/website.css. These local changes are not represented by the recorded Notables revision.
+
+## Current repository layout
+
+The public `phe-rus/hino` repository owns this UI workspace under `packages/ui`, optional integration under `packages/tanstack`, and the official website under `www`. Pherus mounts the repository at `packages/hino` as a Git submodule; the older paths above record migration history.

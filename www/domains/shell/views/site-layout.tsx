@@ -1,0 +1,230 @@
+import {
+    ContextMenuHost,
+    DialogHost,
+    TooltipHost,
+} from "@phe-rus/hino"
+import {
+    Cancel01Icon,
+    Menu01Icon,
+} from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { buttonStyle } from "@phe-rus/hino/button"
+import { IconButton } from "@phe-rus/hino/icon-button"
+import { Sheet } from "@phe-rus/hino/sheet"
+import { Toaster } from "@phe-rus/hino/toaster"
+import { Link } from "@tanstack/react-router"
+import { HinoMark } from "./hino-mark"
+import { cn } from "@phe-rus/hino/cn"
+import {
+    type ReactNode,
+    useEffect,
+    useRef,
+    useState,
+} from "react"
+
+function Mark() {
+    return (
+        <Link
+            to="/"
+            aria-label="Hino home"
+            className="flex items-center gap-2 no-underline"
+        >
+            <HinoMark />
+            <span className="font-display text-title3 font-black tracking-[-0.05em] text-label">
+                hino
+            </span>
+        </Link>
+    )
+}
+
+const links = [
+    { label: "Features", hash: "components" },
+    { label: "Playground", hash: "playground" },
+    { label: "What's new", hash: "changelog" },
+] as const
+
+type SiteLayoutProps = {
+    children: ReactNode
+}
+
+/** The site's frame: a top bar, the page, and a footer. */
+export function SiteLayout({ children }: SiteLayoutProps) {
+    const top = useRef<HTMLDivElement>(null)
+    const [scrolled, setScrolled] = useState(false)
+    // the site's links on phones, where the bar has no room for them
+    const [menuOpen, setMenuOpen] = useState(false)
+    const close = () => setMenuOpen(false)
+
+    // a marker at the very top: once it leaves view, the bar turns to glass
+    useEffect(() => {
+        const marker = top.current
+        if (!marker) return
+        const observer = new IntersectionObserver(([entry]) =>
+            setScrolled(!entry.isIntersecting)
+        )
+        observer.observe(marker)
+        return () => observer.disconnect()
+    }, [])
+
+    return (
+        <div className="flex min-h-svh shrink-0 flex-col">
+            <div
+                ref={top}
+                aria-hidden="true"
+                className="h-px"
+            />
+            <header
+                className={cn(
+                    "sticky top-0 z-40 -mt-px transition-[background-color,box-shadow,backdrop-filter] duration-300",
+                    scrolled
+                        ? "glass-bar shadow-[0_1px_0_rgb(0_0_0/0.06)]"
+                        : "bg-transparent"
+                )}
+            >
+                <div className="mx-auto flex h-16 max-w-7xl items-center gap-6 px-4 md:px-6">
+                    <Mark />
+                    <nav
+                        aria-label="Site"
+                        className="mx-auto hidden items-center gap-1 md:flex"
+                    >
+                        <Link
+                            to="/docs/$slug"
+                            params={{ slug: "introduction" }}
+                            className="rounded-full px-3 py-1.5 text-subheadline text-label-secondary no-underline transition-colors hover:bg-fill/70 hover:text-label"
+                        >
+                            Docs
+                        </Link>
+                        <Link
+                            to="/components"
+                            className="rounded-full px-3 py-1.5 text-subheadline text-label-secondary no-underline transition-colors hover:bg-fill/70 hover:text-label"
+                        >
+                            Components
+                        </Link>
+                        {links.map((link) => (
+                            <Link
+                                key={link.hash}
+                                to="/"
+                                hash={link.hash}
+                                className="rounded-full px-3 py-1.5 text-subheadline text-label-secondary no-underline transition-colors hover:bg-fill/70 hover:text-label"
+                            >
+                                {link.label}
+                            </Link>
+                        ))}
+                    </nav>
+                    <Link
+                        to="/docs/$slug"
+                        params={{ slug: "installation" }}
+                        className={buttonStyle({
+                            size: "sm",
+                            className: "ms-auto md:ms-0",
+                        })}
+                    >
+                        Get started
+                    </Link>
+                    <IconButton
+                        label="Menu"
+                        variant="ghost"
+                        size="icon-sm"
+                        aria-haspopup="dialog"
+                        className="md:hidden"
+                        onClick={() => setMenuOpen(true)}
+                    >
+                        <HugeiconsIcon
+                            icon={Menu01Icon}
+                            size={20}
+                        />
+                    </IconButton>
+                </div>
+            </header>
+            <Sheet
+                open={menuOpen}
+                onClose={close}
+                label="Menu"
+            >
+                <nav
+                    aria-label="Site"
+                    className="flex flex-col gap-1 p-4"
+                >
+                    <div className="flex items-center justify-between px-3 pb-2">
+                        <span className="text-headline font-semibold text-label">
+                            Hino
+                        </span>
+                        <IconButton
+                            label="Close"
+                            variant="ghost"
+                            size="icon-sm"
+                            onClick={close}
+                        >
+                            <HugeiconsIcon
+                                icon={Cancel01Icon}
+                                size={20}
+                            />
+                        </IconButton>
+                    </div>
+                    <Link
+                        to="/docs/$slug"
+                        params={{ slug: "introduction" }}
+                        onClick={close}
+                        className="rounded-3xl px-3 py-3 text-body text-label no-underline hover:bg-fill"
+                    >
+                        Docs
+                    </Link>
+                    <Link
+                        to="/components"
+                        onClick={close}
+                        className="rounded-3xl px-3 py-3 text-body text-label no-underline hover:bg-fill"
+                    >
+                        Components
+                    </Link>
+                    {links.map((link) => (
+                        <Link
+                            key={link.hash}
+                            to="/"
+                            hash={link.hash}
+                            onClick={close}
+                            className="rounded-3xl px-3 py-3 text-body text-label no-underline hover:bg-fill"
+                        >
+                            {link.label}
+                        </Link>
+                    ))}
+                </nav>
+            </Sheet>
+            <main className="flex flex-1 flex-col">
+                {children}
+            </main>
+            <footer className="border-separator/60 border-t">
+                <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-10 md:flex-row md:items-center md:px-6">
+                    <Mark />
+                    <nav
+                        aria-label="Footer"
+                        className="flex flex-wrap gap-x-5 gap-y-2 md:mx-auto"
+                    >
+                        <Link
+                            to="/components"
+                            className="text-footnote text-label-secondary no-underline hover:text-label"
+                        >
+                            Components
+                        </Link>
+                        {links.map((link) => (
+                            <Link
+                                key={link.hash}
+                                to="/"
+                                hash={link.hash}
+                                className="text-footnote text-label-secondary no-underline hover:text-label"
+                            >
+                                {link.label}
+                            </Link>
+                        ))}
+                    </nav>
+                    <span className="text-footnote text-label-tertiary">
+                        © 2026 Pherus
+                    </span>
+                </div>
+            </footer>
+            <Toaster />
+            <ContextMenuHost />
+            <DialogHost />
+            <TooltipHost />
+        </div>
+    )
+}

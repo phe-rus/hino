@@ -1,0 +1,36 @@
+@import "@phe-rus/hino-tanstack/styles.css";
+@source "../";
+
+/* the brand face, for the wordmark and big headings only */
+@theme {
+    --font-brand: "Bricolage Grotesque", var(--font-display);
+}
+
+/* the mark's sun rising into place */
+@keyframes sunrise {
+    from {
+        transform: translateY(18px);
+        opacity: 0;
+    }
+}
+
+/* the component showcase sliding by */
+@keyframes marquee {
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+/* highlighted code: Shiki writes both themes as variables; pick by scheme */
+.code-view .shiki,
+.code-view .shiki span {
+    color: var(--shiki-light);
+    background-color: transparent !important;
+}
+
+@media (prefers-color-scheme: dark) {
+    .code-view .shiki,
+    .code-view .shiki span {
+        color: var(--shiki-dark);
+    }
+}

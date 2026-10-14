@@ -1,0 +1,22 @@
+{
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "hino",
+    "compatibility_date": "2026-08-08",
+    "compatibility_flags": ["nodejs_compat"],
+    "main": "src/server.ts",
+    "observability": {
+        "enabled": true
+    },
+    "workers_dev": false,
+    "preview_urls": false,
+    "vars": {
+        "NODE_ENV": "production"
+    },
+    // no bindings: the docs site holds no data
+    "routes": [
+        {
+            "custom_domain": true,
+            "pattern": "hino.pherus.org"
+        }
+    ]
+}

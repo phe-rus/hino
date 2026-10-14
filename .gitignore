@@ -6,3 +6,11 @@ dist/
 bun.lock
 .env*
 !.env.example
+
+.wrangler/
+.tanstack/
+.output/
+.vinxi/
+.dev.vars*
+worker-configuration.d.ts
+**/src/routeTree.gen.ts
