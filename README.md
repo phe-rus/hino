@@ -60,9 +60,15 @@ bun run publish:check
 The package exports TypeScript and TSX source. Your app's bundler must
 process those files and its stylesheet through Tailwind CSS 4.
 
-Login to npm with an account that can publish under `@phe-rus`, then run
-`bun publish`. The package configuration selects the public npm registry
-and public access. Keep credentials in your user npm configuration.
+The GitHub Actions `publish.yml` workflow publishes from `main` using
+npm's trusted publisher connection and the `npm-publish` environment.
+It installs and validates with Bun, packs with Bun, then publishes the
+archive with npm's OIDC support. It needs no stored npm token.
+
+For a manual release, login to npm with an account that can publish
+under `@phe-rus`, then run `bun publish`. The package configuration
+selects the public npm registry and public access. Keep credentials in
+your user npm configuration.
 
 ## Principles
 

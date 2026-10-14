@@ -187,6 +187,12 @@ source and CSS; consumers need a bundler that processes that source,
 React 19 and Tailwind CSS 4. Keep npm credentials in user configuration,
 outside the repository. Validate typecheck and tests before publishing.
 
+`.github/workflows/publish.yml` runs manually on `main`, using the
+`npm-publish` GitHub environment and job scoped `id-token: write`.
+Bun installs, tests and packs; npm publishes the tarball with OIDC.
+The npm trusted publisher must match `phe-rus/hino`, `publish.yml`
+and `npm-publish`. No npm token secret is needed.
+
 ## Integration boundaries
 
 Native controls in `src/` do not import TanStack or application domains. `packages/tanstack/` adapts them to form state, tables and routing. Domain-specific layouts and actions stay in apps. The former `@pherus/ui` package is removed; add missing controls to their native component folder rather than recreating compatibility wrappers.
