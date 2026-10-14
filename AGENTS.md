@@ -11,7 +11,8 @@ remain outside this repo.
   appearance, typed docs and examples. See `packages/ui/AGENTS.md`.
 * `packages/tanstack`, `@phe-rus/hino-tanstack`: optional form, table,
   router and query integrations. See `packages/tanstack/AGENTS.md`.
-* `packages/cli`, `@phe-rus/hino-cli`: project setup tooling.
+* `packages/cli`, `@phe-rus/hino-cli`: project setup tooling. See
+  `packages/cli/AGENTS.md` for file safety and starter conventions.
 
 Dependency direction is CLI setup tooling and optional integrations
 toward the UI. The UI itself remains independent of TanStack and CLI.

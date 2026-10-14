@@ -5,7 +5,7 @@
 
 ## Summary
 
-The public Hino repository owns `@phe-rus/hino-cli`. It sets up Hino in an existing React project or creates a project with Hino already wired. Initial starters are Vite React and TanStack Start, the recommended choice stated in the conversation.
+The public Hino repository owns `@phe-rus/hino-cli`. It sets up Hino in an existing React project or creates a project with Hino already wired. Initial starters are Vite React and TanStack Start, the choice confirmed by the user in the conversation.
 
 ## Requirements
 
@@ -39,3 +39,5 @@ No network or credentials are used except the selected package manager installat
 Existing apps need to follow the generated root wiring instructions. This avoids unreliable transformations of arbitrary application source. The earlier user decision to omit a separate clean React app verification still applies; CLI file operation and process tests use temporary directories in its test suite.
 
 Validation: CLI typecheck and 15 tests passed, including generated template parsing and relative import resolution. All existing Hino and website tests and typechecks passed, and the website built successfully. The packed archive contains four files, no runtime dependencies, and its executable ran under Node. Public release and CI validation are the remaining delivery steps.
+
+Public Hino CI passed all checks at https://github.com/phe-rus/hino/actions/runs/38558894585. Initial npm publication is awaiting browser authentication.
