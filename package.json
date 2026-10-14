@@ -1,6 +1,6 @@
 {
     "name": "@phe-rus/hino",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Hino: native React controls, design tokens, presentation and appearance.",
     "license": "MIT",
     "repository": {
