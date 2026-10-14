@@ -1,7 +1,7 @@
 # 0001. Hino project setup CLI
 
 **Date**: 2026-10-14
-**Status**: In Progress
+**Status**: Accepted
 
 ## Summary
 
@@ -38,6 +38,6 @@ No network or credentials are used except the selected package manager installat
 
 Existing apps need to follow the generated root wiring instructions. This avoids unreliable transformations of arbitrary application source. The earlier user decision to omit a separate clean React app verification still applies; CLI file operation and process tests use temporary directories in its test suite.
 
-Validation: CLI typecheck and 15 tests passed, including generated template parsing and relative import resolution. All existing Hino and website tests and typechecks passed, and the website built successfully. The packed archive contains four files, no runtime dependencies, and its executable ran under Node. Public release and CI validation are the remaining delivery steps.
+Validation: CLI typecheck and 15 tests passed, including generated template parsing and relative import resolution. All existing Hino and website tests and typechecks passed, and the website built successfully. The packed archive contains four files, no runtime dependencies, and its executable ran under Node. The first public release and CI verification are complete.
 
-Public Hino CI passed all checks at https://github.com/phe-rus/hino/actions/runs/38558894585. Initial npm publication is awaiting browser authentication.
+Public Hino CI passed all checks at https://github.com/phe-rus/hino/actions/runs/38558894585. `@phe-rus/hino-cli@0.1.0` is public on npm and its published bunx command was verified. Its GitHub trusted publisher is configured for `phe-rus/hino`, `publish.yml`, `npm-publish`. Version 0.1.1 derives the displayed version from package metadata; its GitHub OIDC release succeeded and validated the trusted publisher: https://github.com/phe-rus/hino/actions/runs/38561709180. The published `bunx @phe-rus/hino-cli@0.1.1 --version` command returned 0.1.1.
