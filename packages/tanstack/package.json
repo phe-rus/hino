@@ -21,7 +21,7 @@
     "scripts": {
         "typecheck": "tsc --noEmit",
         "test": "bun test",
-        "publish:check": "bun publish --dry-run"
+        "publish:check": "bun pm pack --dry-run"
     },
     "dependencies": {
         "@phe-rus/hino": "workspace:^",

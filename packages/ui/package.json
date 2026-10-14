@@ -65,7 +65,7 @@
         "generate": "bun tokens/scripts/generate-css.ts",
         "test": "bun test test tokens/test",
         "typecheck": "tsc -p tsconfig.json",
-        "publish:check": "bun publish --dry-run"
+        "publish:check": "bun pm pack --dry-run"
     },
     "packageManager": "bun@1.4.2",
     "peerDependencies": {
