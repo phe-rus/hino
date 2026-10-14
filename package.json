@@ -9,7 +9,8 @@
     },
     "homepage": "https://github.com/phe-rus/hino#readme",
     "publishConfig": {
-        "registry": "https://npm.pkg.github.com"
+        "registry": "https://registry.npmjs.org",
+        "access": "public"
     },
     "files": [
         "src",
@@ -62,18 +63,21 @@
     "scripts": {
         "generate": "bun tokens/scripts/generate-css.ts",
         "test": "bun test",
-        "typecheck": "tsc -p tsconfig.json"
+        "typecheck": "tsc -p tsconfig.json",
+        "publish:check": "bun publish --dry-run"
     },
+    "packageManager": "bun@1.4.2",
     "peerDependencies": {
-        "react": "catalog:",
-        "react-dom": "catalog:"
+        "react": "^19.3.0",
+        "react-dom": "^19.3.0",
+        "tailwindcss": "^4.3.3"
     },
     "devDependencies": {
-        "@types/react": "catalog:",
-        "@types/react-dom": "catalog:",
-        "react": "catalog:",
-        "react-dom": "catalog:",
-        "typescript": "catalog:",
+        "@types/react": "^19.3.0",
+        "@types/react-dom": "^19.3.0",
+        "react": "^19.3.0",
+        "react-dom": "^19.3.0",
+        "typescript": "^7.0.2",
         "@types/bun": "^1.4.2",
         "tailwindcss": "^4.3.3"
     },

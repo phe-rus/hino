@@ -20,8 +20,13 @@ Material 3 is to Google, built for any React app.
 
 ## Using it
 
-Install instructions arrive with the npm release. Once installed, import
-the styles once and each control from its own entry point:
+Install the public npm package in a React 19 app with Tailwind CSS 4:
+
+```bash
+bun add @phe-rus/hino
+```
+
+Import the styles once and each control from its own entry point:
 
 ```css
 @import "@phe-rus/hino/styles.css";
@@ -38,6 +43,26 @@ export function SaveButton() {
 See [Installation](https://hino.pherus.org/docs/installation) for the
 root setup, and [Skills](https://hino.pherus.org/docs/skills) to give AI
 agents Hino's rules.
+
+Hino works independently of TanStack. If your app uses TanStack Form,
+Table or Router, the optional `@phe-rus/hino-tanstack` package connects them to
+Hino's controls.
+
+## Development and publishing
+
+```bash
+bun install
+bun run typecheck
+bun test
+bun run publish:check
+```
+
+The package exports TypeScript and TSX source. Your app's bundler must
+process those files and its stylesheet through Tailwind CSS 4.
+
+Login to npm with an account that can publish under `@phe-rus`, then run
+`bun publish`. The package configuration selects the public npm registry
+and public access. Keep credentials in your user npm configuration.
 
 ## Principles
 

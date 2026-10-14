@@ -1,5 +1,9 @@
 # Hino source checkpoint
 
+Current owner: `https://github.com/phe-rus/hino.git`. Pherus mounts this
+repository as a submodule. The snapshot and adapters below record its
+Notables lineage; they do not define a second editable source copy.
+
 Source: Pherus Notables, packages/hino.
 Revision: 512f730, 2026-10-10.
 

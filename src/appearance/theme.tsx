@@ -376,6 +376,7 @@ const ThemeScript = memo(
 
         return (
             <script
+                // biome-ignore lint/security/noDangerouslySetInnerHtml: Run the theme bootstrap with serialized provider configuration before first paint.
                 dangerouslySetInnerHTML={{
                     __html: `(${script.toString()})(${scriptArgs})`,
                 }}

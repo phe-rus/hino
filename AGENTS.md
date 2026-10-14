@@ -18,10 +18,10 @@ black box.
 | Package | Folder | Holds |
 |---|---|---|
 | `@phe-rus/hino` | `packages/hino/` | Native controls, presentation, appearance, hooks, styles and design tokens. |
-| `@hino/tanstack` | `packages/tanstack/` | Form, table and router integrations; imports native controls. |
+| `@phe-rus/hino-tanstack` | `packages/tanstack/` | Form, table and router integrations; imports native controls. |
 
 An app imports one stylesheet, `@phe-rus/hino/styles.css` (or
-`@hino/tanstack/styles.css`, which includes it). It brings in Tailwind,
+`@phe-rus/hino-tanstack/styles.css`, which includes it). It brings in Tailwind,
 the theme, utilities, base and typeset, and registers Hino's own files
 with `@source`, so apps add no paths; Tailwind finds the app's files by
 itself. `theme.css`, `utilities.css`, `base.css` and `typeset.css` stay
@@ -37,7 +37,9 @@ exported for `www`, which composes its own website stylesheet from them.
   `SegmentedControl`, `Sheet`, `Popover`, `TabBar`, text styles like
   `footnote`. Our own concepts keep plain English names.
 - **One component, one folder:** `src/components/<kebab-name>/<kebab-name>.tsx`,
-  with its store, hooks and tests beside it. Export it from `src/index.ts`.
+  with its store and hooks beside it. Tests, helpers and fixtures live
+  in `test/`, mirroring `src/`; token tests live in `tokens/test/`.
+  Export the component from `src/index.ts`.
 - **Typed choices.** Props with fixed options, such as `size`, `variant` or
   `tone`, use named string literal unions rather than `string`. Export those
   types with the component so editors can suggest valid values and TypeScript
@@ -171,6 +173,19 @@ breaks loudly and prose stays out of Hino:
 | `toast` | `toast/` | Host mounted once by the app |
 | `Toggle` | `toggle/` | |
 | Tooltip | `tooltip/` | `data-tooltip` on any element |
+
+## Repository and public package
+
+This repository owns Hino's UI source. Pherus mounts it as a submodule
+at `packages/hino`; the docs website and optional TanStack integration
+remain in Pherus. Dependency versions here are explicit so this repo
+can install independently of Pherus's catalogs.
+
+`bun run publish:check` previews the public npm package. Publishing uses
+`registry.npmjs.org` and public access. The package exports TS/TSX
+source and CSS; consumers need a bundler that processes that source,
+React 19 and Tailwind CSS 4. Keep npm credentials in user configuration,
+outside the repository. Validate typecheck and tests before publishing.
 
 ## Integration boundaries
 

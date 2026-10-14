@@ -81,6 +81,7 @@ export function PlatformScript({
 }) {
     return (
         <script
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: Run the library's platform bootstrap before first paint.
             dangerouslySetInnerHTML={{
                 __html: `(${initializePlatform.toString()})(${resolvePlatform.toString()}, document.documentElement, navigator.userAgent, navigator.platform, navigator.maxTouchPoints)`,
             }}
