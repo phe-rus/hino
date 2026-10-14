@@ -1,0 +1,121 @@
+#!/usr/bin/env node
+import { parseArgs } from "node:util"
+import { resolve } from "node:path"
+import {
+    installProject,
+    planProject,
+    writePlan,
+    type Options,
+    type PackageManager,
+} from "./project"
+
+const help = `Hino project setup
+
+  bunx @phe-rus/hino-cli init [--dir .] [--integration tanstack]
+  bunx @phe-rus/hino-cli create my-app [--template vite|tanstack]
+
+Options:
+  --pm bun|npm|pnpm|yarn  Package manager (detected, otherwise Bun)
+  --no-install           Generate files without installing
+  --dry-run              Show planned files without changing the project
+  --help                 Show help
+  --version              Show CLI version
+
+Existing projects get hino/styles.css, hino/providers.tsx and wiring
+instructions. Application roots and bundler configs stay yours to edit.
+`
+
+async function main() {
+    const { values, positionals } = parseArgs({
+        allowPositionals: true,
+        options: {
+            help: { type: "boolean", short: "h" },
+            version: { type: "boolean", short: "v" },
+            dir: { type: "string" },
+            template: { type: "string" },
+            integration: { type: "string" },
+            pm: { type: "string" },
+            "no-install": { type: "boolean" },
+            "dry-run": { type: "boolean" },
+        },
+    })
+    if (
+        values.help ||
+        (!positionals.length && !values.version)
+    ) {
+        console.log(help)
+        return
+    }
+    if (values.version) {
+        console.log("0.1.0")
+        return
+    }
+    const [command, destination, ...extra] = positionals
+    if (command !== "init" && command !== "create")
+        throw new Error(
+            "Choose init or create. Use --help for examples."
+        )
+    if (
+        extra.length ||
+        (command === "init" && destination) ||
+        (command === "create" &&
+            (!destination ||
+                values.dir ||
+                values.integration)) ||
+        (command === "init" && values.template)
+    )
+        throw new Error(
+            "Invalid command arguments. Use --help for examples."
+        )
+    const template = values.template ?? "vite"
+    if (template !== "vite" && template !== "tanstack")
+        throw new Error("Template must be vite or tanstack.")
+    if (
+        values.integration &&
+        values.integration !== "none" &&
+        values.integration !== "tanstack"
+    )
+        throw new Error(
+            "Integration must be none or tanstack."
+        )
+    if (
+        values.pm &&
+        !["bun", "npm", "pnpm", "yarn"].includes(values.pm)
+    )
+        throw new Error(
+            "Package manager must be bun, npm, pnpm or yarn."
+        )
+    const options: Options = {
+        command,
+        directory: resolve(
+            command === "create"
+                ? destination!
+                : (values.dir ?? ".")
+        ),
+        template,
+        integration: values.integration === "tanstack",
+        manager: values.pm as PackageManager | undefined,
+        install: !values["no-install"],
+        dryRun: !!values["dry-run"],
+    }
+    const plan = await planProject(options)
+    console.log(
+        `${options.dryRun ? "Plan for" : "Setting up"} ${plan.root} (${plan.framework}, ${plan.manager})`
+    )
+    for (const path of Object.keys(plan.files))
+        console.log(`  ${path}`)
+    if (options.dryRun) return
+    await writePlan(plan)
+    if (options.install)
+        await installProject(plan.root, plan.manager)
+    console.log(
+        command === "create"
+            ? `Ready. Run ${plan.manager} run dev in ${plan.root}.`
+            : "Setup files are ready. Follow hino/README.md to wire your app root and Tailwind pipeline."
+    )
+}
+
+main().catch((error: Error) => {
+    console.error(`Hino: ${error.message}`)
+    process.exitCode = 1
+})

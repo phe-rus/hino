@@ -16,6 +16,20 @@ export function InstallationGuide() {
                 title="Install"
                 description="Install Hino from public npm in a React 19 app with Tailwind CSS 4."
             >
+                <Prose>
+                    For guided setup, run the Hino CLI in your
+                    React app. It generates a stylesheet,
+                    providers and instructions for your
+                    framework.
+                </Prose>
+                <CodeBlock
+                    lang="shellscript"
+                    code={`bunx @phe-rus/hino-cli init
+
+# Create a new project
+bunx @phe-rus/hino-cli create my-app
+bunx @phe-rus/hino-cli create my-app --template tanstack`}
+                />
                 <Steps
                     steps={[
                         {

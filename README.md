@@ -16,6 +16,13 @@ in `www/` and consumes these packages. Run `bun run --cwd www dev`
 for local development, or `bun run build:website` for its Worker build.
 
 ```bash
+bunx @phe-rus/hino-cli init
+bunx @phe-rus/hino-cli create my-app --template tanstack
+```
+
+Repository development:
+
+```bash
 bun install
 bun run typecheck
 bun run test

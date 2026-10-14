@@ -1,0 +1,40 @@
+{
+    "name": "@phe-rus/hino-cli",
+    "version": "0.1.0",
+    "description": "Set up Hino in React projects and create Hino starters.",
+    "type": "module",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/phe-rus/hino.git",
+        "directory": "packages/cli"
+    },
+    "homepage": "https://hino.pherus.org/docs/installation",
+    "bin": {
+        "hino": "dist/hino.js"
+    },
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE"
+    ],
+    "engines": {
+        "node": ">=22.12.0"
+    },
+    "publishConfig": {
+        "access": "public",
+        "registry": "https://registry.npmjs.org"
+    },
+    "scripts": {
+        "build": "bun build src/index.ts --target=node --outfile=dist/hino.js && chmod +x dist/hino.js",
+        "typecheck": "tsc --noEmit",
+        "test": "bun test test",
+        "prepack": "bun run build",
+        "publish:check": "bun pm pack --dry-run"
+    },
+    "devDependencies": {
+        "@types/node": "^26.6.3",
+        "@types/bun": "^1.4.2",
+        "typescript": "^7.0.2"
+    }
+}

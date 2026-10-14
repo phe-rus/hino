@@ -25,6 +25,8 @@ jobs:
                   node-version: "24"
                   package-manager-cache: false
             - run: bun install
+            - run: bun run --cwd packages/cli build
+            - run: node packages/cli/dist/hino.js --help
             - run: bun run --cwd www type-gen
             - run: bun run build:website
             - run: bun run typecheck
