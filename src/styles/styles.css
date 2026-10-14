@@ -1,16 +1,25 @@
+/*
+ * Hino's one stylesheet: Tailwind, the theme, utilities, base styles,
+ * typeset, and the classes Hino's own components use. Import it once:
+ *
+ *     @import "@phe-rus/hino/styles.css";
+ *
+ * Tailwind finds the app's own files by itself; this file registers
+ * Hino's, wherever the package is installed.
+ */
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "@hino/ui/theme.css";
-@import "@hino/ui/utilities.css";
-@import "@hino/ui/base.css";
+@import "../../tokens/theme.css";
+@import "./utilities.css";
+@import "./base.css";
 @import "./typeset.css";
 
-@source "../../../../apps";
+/* Hino's own components, resolved from this file's place in the package */
 @source "../";
-@source "../../../tanstack/src";
+
 @custom-variant dark (&:is(.dark *));
 
-/* Existing domain views keep their semantic roles during the control migration. */
+/* Older role names some views still use, mapped onto Hino's roles. */
 @theme inline {
     --color-foreground: var(--color-label);
     --color-muted: var(--color-fill);
@@ -50,5 +59,7 @@
 
 @utility no-scrollbar {
     scrollbar-width: none;
-    &::-webkit-scrollbar { display: none; }
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }

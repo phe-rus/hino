@@ -17,12 +17,15 @@ black box.
 
 | Package | Folder | Holds |
 |---|---|---|
-| `@hino/ui` | `packages/hino/` | Native controls, presentation, appearance, hooks, styles and design tokens. |
+| `@phe-rus/hino` | `packages/hino/` | Native controls, presentation, appearance, hooks, styles and design tokens. |
 | `@hino/tanstack` | `packages/tanstack/` | Form, table and router integrations; imports native controls. |
 
-An app imports `@hino/ui/theme.css`, then `@hino/ui/utilities.css`
-and `@hino/ui/base.css`, after Tailwind, and adds `@source` for
-`packages/hino/src` and `packages/tanstack/src`.
+An app imports one stylesheet, `@phe-rus/hino/styles.css` (or
+`@hino/tanstack/styles.css`, which includes it). It brings in Tailwind,
+the theme, utilities, base and typeset, and registers Hino's own files
+with `@source`, so apps add no paths; Tailwind finds the app's files by
+itself. `theme.css`, `utilities.css`, `base.css` and `typeset.css` stay
+exported for `www`, which composes its own website stylesheet from them.
 
 ## Rules
 
@@ -126,6 +129,25 @@ expect (flush, solid bottom bar; solid top bars); Apple platforms get glass.
 Springs in `tokens/src/motion.ts`, used through `spring` in
 `src/motion/transitions.ts`: `smooth` for most transitions, `snappy` for
 small feedback, `bouncy` for playful moments. Haptics go through `haptic()`.
+
+## Docs
+
+Every component has docs for the site in `apps/hino`, split so code
+breaks loudly and prose stays out of Hino:
+
+- `src/components/<name>/<slug>.docs.tsx`: `defineDocs<Props>()` with the
+  playground's controls, a `render`, an optional `childrenSnippet`, and
+  its examples. Register it in `src/docs/registry.ts`.
+- `src/components/<name>/examples/<slug>-<id>.tsx`: one real example per
+  file, exporting exactly one function named `<Slug><Id>` (for example
+  `table-empty.tsx` exports `TableEmpty`). The site shows the file's own
+  source, so it imports from `@phe-rus/hino/...` as an app would.
+  Every page needs `usage`, `showcase` and at least two examples.
+- The words (summary, prop descriptions, example titles, practices) live
+  in `apps/hino/domains/catalog/content/<slug>.ts`, typed against the
+  docs, so a new control without a description fails the typecheck.
+- `test/docs/registry.test.ts` enforces unique slugs, real `exports`
+  entries, valid defaults and the example file names.
 
 ## Components
 

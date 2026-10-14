@@ -1,6 +1,6 @@
 /*
  * Hino utilities. Import after Tailwind so `@utility` definitions are
- * picked up: `@import "@hino/ui/utilities.css";`
+ * picked up: `@import "@phe-rus/hino/utilities.css";`
  *
  * Write `backdrop-filter` alone, never with `-webkit-backdrop-filter` beside
  * it: the minifier merges the pair into the prefixed form only, which

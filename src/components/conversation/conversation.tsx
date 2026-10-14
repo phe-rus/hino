@@ -1,4 +1,4 @@
-import { IconButton } from "@hino/ui/icon-button"
+import { IconButton } from "@phe-rus/hino/icon-button"
 import { ArrowUp02Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import type { ReactNode } from "react"
@@ -19,24 +19,38 @@ export type ConversationMessage = {
 
 const GROUP_GAP_MS = 5 * 60 * 1000
 
-function dayLabel(iso: string) {
+/**
+ * The day line: today and yesterday in the reader's own words, from
+ * Intl rather than built-in English, else the full date.
+ */
+function dayLabel(iso: string, locale?: string) {
     const date = new Date(iso)
     const today = new Date()
     const yesterday = new Date()
     yesterday.setDate(today.getDate() - 1)
-    if (date.toDateString() === today.toDateString())
-        return "Today"
-    if (date.toDateString() === yesterday.toDateString())
-        return "Yesterday"
-    return date.toLocaleDateString(undefined, {
-        weekday: "long",
-        month: "long",
-        day: "numeric",
-    })
+    const offset =
+        date.toDateString() === today.toDateString()
+            ? 0
+            : date.toDateString() === yesterday.toDateString()
+              ? -1
+              : null
+    if (offset === null)
+        return date.toLocaleDateString(locale, {
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+        })
+    const word = new Intl.RelativeTimeFormat(locale, {
+        numeric: "auto",
+    }).format(offset, "day")
+    return (
+        word.charAt(0).toLocaleUpperCase(locale) +
+        word.slice(1)
+    )
 }
 
-const clock = (iso: string) =>
-    new Date(iso).toLocaleTimeString(undefined, {
+const clock = (iso: string, locale?: string) =>
+    new Date(iso).toLocaleTimeString(locale, {
         hour: "numeric",
         minute: "2-digit",
     })
@@ -48,8 +62,11 @@ const clock = (iso: string) =>
  */
 function Messages({
     messages,
+    locale,
 }: {
     messages: ConversationMessage[]
+    /** For day names and times; the reader's own by default. */
+    locale?: string
 }) {
     return (
         <ol data-not-typeset className="flex flex-col">
@@ -85,8 +102,15 @@ function Messages({
                         className="flex flex-col"
                     >
                         {newDay && (
-                            <span className="my-4 text-center text-[11px] font-medium text-muted-foreground">
-                                {dayLabel(message.createdAt)}
+                            // the reader's own day and clock, which a server can't know
+                            <span
+                                suppressHydrationWarning
+                                className="my-4 text-center text-caption2 font-medium text-label-secondary"
+                            >
+                                {dayLabel(
+                                    message.createdAt,
+                                    locale
+                                )}
                             </span>
                         )}
                         <div
@@ -116,20 +140,21 @@ function Messages({
                             >
                                 {startsGroup &&
                                     message.author && (
-                                        <span className="px-3 text-[11px] text-muted-foreground">
+                                        <span className="px-3 text-caption2 text-label-secondary">
                                             {message.author}
                                         </span>
                                     )}
                                 {/* text only: a message can never become markup */}
                                 <p
+                                    suppressHydrationWarning
                                     title={formatTime(
                                         message.createdAt
                                     )}
                                     className={cn(
-                                        "rounded-4xl px-3.5 py-2 text-[15px] leading-snug whitespace-pre-wrap wrap-break-word",
+                                        "rounded-4xl px-3.5 py-2 text-subheadline leading-snug whitespace-pre-wrap wrap-break-word",
                                         message.mine
-                                            ? "bg-primary text-primary-foreground"
-                                            : "bg-secondary text-secondary-foreground",
+                                            ? "bg-inverse text-on-inverse"
+                                            : "bg-fill text-label",
                                         endsGroup &&
                                             (message.mine
                                                 ? "rounded-br-md"
@@ -140,13 +165,15 @@ function Messages({
                                 </p>
                                 {endsGroup && (
                                     <time
+                                        suppressHydrationWarning
                                         dateTime={
                                             message.createdAt
                                         }
-                                        className="px-3 text-[11px] text-muted-foreground tabular-nums"
+                                        className="px-3 text-caption2 text-label-secondary tabular-nums"
                                     >
                                         {clock(
-                                            message.createdAt
+                                            message.createdAt,
+                                            locale
                                         )}
                                     </time>
                                 )}
@@ -166,7 +193,13 @@ type ComposerProps = {
     placeholder: string
     /** Extra controls under the field, like a status picker. */
     actions?: ReactNode
-    sendLabel?: string
+    /** Names the round Send button for screen readers. */
+    sendLabel: string
+    /**
+     * Words for the characters left, shown near the limit, such as
+     * (count) => `${count} left`. Without it, just the number shows.
+     */
+    remaining?: (count: number) => string
 }
 
 /** A reply field with a round send button; Ctrl/Cmd+Enter sends, and it clears only once the send worked. */
@@ -176,7 +209,8 @@ function Composer({
     maxLength,
     placeholder,
     actions,
-    sendLabel = "Send",
+    sendLabel,
+    remaining,
 }: ComposerProps) {
     const [body, setBody] = useState("")
     const ready = body.trim().length > 0 && !pending
@@ -195,7 +229,7 @@ function Composer({
                 void send()
             }}
         >
-            <div className="flex items-end gap-2 rounded-5xl border border-border bg-card py-1.5 pr-1.5 pl-4 transition-colors focus-within:border-ring/60">
+            <div className="flex items-end gap-2 rounded-5xl border border-separator bg-elevated py-1.5 pr-1.5 pl-4 transition-colors focus-within:border-accent-text/60">
                 <textarea
                     value={body}
                     onChange={(event) =>
@@ -213,7 +247,7 @@ function Composer({
                     maxLength={maxLength}
                     placeholder={placeholder}
                     rows={1}
-                    className="field-sizing-content max-h-48 min-h-9 flex-1 resize-none bg-transparent py-1.5 text-[15px] text-card-foreground outline-none placeholder:text-muted-foreground"
+                    className="field-sizing-content max-h-48 min-h-9 flex-1 resize-none bg-transparent py-1.5 text-subheadline text-label outline-none placeholder:text-label-secondary"
                 />
                 <IconButton
                     type="submit"
@@ -230,9 +264,12 @@ function Composer({
             </div>
             <div className="flex min-h-6 items-center gap-2 px-1">
                 {actions}
-                <span className="ml-auto text-[11px] text-muted-foreground tabular-nums">
+                <span className="ml-auto text-caption2 text-label-secondary tabular-nums">
                     {body.length > maxLength * 0.8 &&
-                        `${maxLength - body.length} left`}
+                        (remaining?.(
+                            maxLength - body.length
+                        ) ??
+                            maxLength - body.length)}
                 </span>
             </div>
         </form>

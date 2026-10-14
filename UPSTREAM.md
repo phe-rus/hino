@@ -3,7 +3,7 @@
 Source: Pherus Notables, packages/hino.
 Revision: 512f730, 2026-10-10.
 
-This is a versioned source snapshot for `@hino/ui`, formerly `@ultrapeach/ui`. It does not depend on another local checkout at runtime or build time. The recorded revision identifies the starting source; local deltas below must be reconciled before refreshing it.
+This is a versioned source snapshot for `@phe-rus/hino`, formerly `@ultrapeach/ui`. It does not depend on another local checkout at runtime or build time. The recorded revision identifies the starting source; local deltas below must be reconciled before refreshing it.
 
 UI source and design tokens now share the `packages/hino/` workspace. TanStack integrations live independently in `packages/tanstack/`.
 

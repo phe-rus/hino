@@ -29,9 +29,9 @@ export function Ambient({
                     alt=""
                     className={cn(
                         "pointer-events-none absolute top-[38%] left-1/2 -z-10 size-[min(32rem,100vw)] -translate-x-1/2 -translate-y-1/2",
-                        "rounded-full object-cover opacity-[0.07] blur-[72px] saturate-50",
+                        "rounded-full object-cover opacity-20 blur-3xl",
                         // on a dark page the same light blooms far wider, so it shrinks and dims
-                        "dark:size-[min(20rem,80vw)] dark:opacity-[0.05] dark:blur-[56px]",
+                        "dark:size-[min(20rem,80vw)] dark:opacity-15 dark:blur-2xl",
                         "mask-[radial-gradient(closest-side,black_35%,transparent)]",
                         "animate-in fade-in-0 zoom-in-90 duration-1000"
                     )}

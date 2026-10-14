@@ -14,7 +14,7 @@ function Table({
             <table
                 data-slot="table"
                 className={cn(
-                    "w-full caption-bottom text-xs",
+                    "w-full caption-bottom text-subheadline text-label",
                     className
                 )}
                 {...props}
@@ -30,7 +30,10 @@ function TableHeader({
     return (
         <thead
             data-slot="table-header"
-            className={cn("[&_tr]:border-b", className)}
+            className={cn(
+                "[&_tr]:border-separator [&_tr]:border-b",
+                className
+            )}
             {...props}
         />
     )
@@ -60,7 +63,7 @@ function TableFooter({
         <tfoot
             data-slot="table-footer"
             className={cn(
-                "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
+                "border-separator border-t bg-fill/50 font-semibold [&>tr]:last:border-b-0",
                 className
             )}
             {...props}
@@ -76,8 +79,8 @@ function TableRow({
         <tr
             data-slot="table-row"
             className={cn(
-                "border-b transition-colors hover:bg-fill/50 has-aria-expanded:bg-muted/50",
-                "data-[state=selected]:bg-muted",
+                "border-separator border-b transition-colors duration-fast hover:bg-fill/50 has-aria-expanded:bg-fill/50",
+                "data-[state=selected]:bg-accent-soft/60",
                 className
             )}
             {...props}
@@ -93,8 +96,8 @@ function TableHead({
         <th
             data-slot="table-head"
             className={cn(
-                "h-10 px-2 text-left align-middle font-medium whitespace-nowrap",
-                "text-foreground has-[[role=checkbox]]:pr-0",
+                "h-10 px-3 text-start align-middle text-footnote font-semibold whitespace-nowrap",
+                "text-label-secondary has-[[role=checkbox]]:pe-0",
                 className
             )}
             {...props}
@@ -110,7 +113,7 @@ function TableCell({
         <td
             data-slot="table-cell"
             className={cn(
-                "p-2 align-middle whitespace-nowrap has-[[role=checkbox]]:pr-0",
+                "px-3 py-2.5 align-middle whitespace-nowrap has-[[role=checkbox]]:pe-0",
                 className
             )}
             {...props}
@@ -126,7 +129,7 @@ function TableCaption({
         <caption
             data-slot="table-caption"
             className={cn(
-                "mt-4 text-xs text-muted-foreground",
+                "mt-4 text-footnote text-label-secondary",
                 className
             )}
             {...props}

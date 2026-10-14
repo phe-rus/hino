@@ -1,8 +1,23 @@
 {
-    "name": "@hino/ui",
-    "version": "0.0.0",
-    "private": true,
+    "name": "@phe-rus/hino",
+    "version": "0.1.0",
     "description": "Hino: native React controls, design tokens, presentation and appearance.",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/phe-rus/hino.git"
+    },
+    "homepage": "https://github.com/phe-rus/hino#readme",
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com"
+    },
+    "files": [
+        "src",
+        "tokens/src",
+        "tokens/theme.css",
+        "README.md",
+        "LICENSE"
+    ],
     "type": "module",
     "exports": {
         "./table": "./src/components/table/table.tsx",
@@ -40,8 +55,9 @@
         "./appearance": "./src/appearance/index.ts",
         "./use-media-query": "./src/hooks/use-media-query.ts",
         "./typeset.css": "./src/styles/typeset.css",
-        "./application.css": "./src/styles/application.css",
-        "./dialog": "./src/components/dialog/index.ts"
+        "./styles.css": "./src/styles/styles.css",
+        "./dialog": "./src/components/dialog/index.ts",
+        "./docs": "./src/docs/index.ts"
     },
     "scripts": {
         "generate": "bun tokens/scripts/generate-css.ts",

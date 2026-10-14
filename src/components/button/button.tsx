@@ -1,5 +1,6 @@
 import { type ButtonHTMLAttributes, forwardRef } from "react"
 import { cn } from "../../lib/class-names"
+import { PendingSpinner } from "./pending-spinner"
 import { usePendingIndicator } from "./use-pending-indicator"
 import {
     buttonSizes,
@@ -64,19 +65,27 @@ export const Button = forwardRef<
             className={buttonStyle({
                 variant,
                 size,
-                className,
+                // pending is busy, not unavailable: keep full colour
+                className: cn(
+                    "data-pending:cursor-progress data-pending:disabled:opacity-100",
+                    className
+                ),
             })}
             {...props}
+            data-pending={isPending || undefined}
             disabled={disabled || isPending}
             aria-busy={isPending || props["aria-busy"]}
         >
-            {children}
-            {showPendingIndicator && (
-                <span
-                    aria-hidden="true"
-                    className="absolute right-2 top-1/2 size-3 -translate-y-1/2 animate-spin rounded-full border-2 border-current border-t-transparent motion-reduce:animate-none"
-                />
-            )}
+            {/* the label keeps its space, so the width never jumps */}
+            <span
+                className={cn(
+                    "inline-flex items-center justify-center gap-2 transition-opacity duration-200",
+                    showPendingIndicator && "opacity-0"
+                )}
+            >
+                {children}
+            </span>
+            {showPendingIndicator && <PendingSpinner />}
         </button>
     )
 })

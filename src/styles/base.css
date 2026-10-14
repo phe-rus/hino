@@ -1,6 +1,6 @@
 /*
  * Hino base layer: global element defaults shared by every app.
- * Import after the design tokens: `@import "@hino/ui/base.css";`
+ * Import after the design tokens: `@import "@phe-rus/hino/base.css";`
  */
 
 @layer base {

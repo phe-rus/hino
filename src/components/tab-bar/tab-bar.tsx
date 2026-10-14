@@ -1,5 +1,5 @@
 import { motion } from "motion/react"
-import type { ReactNode } from "react"
+import { type ReactNode, useId } from "react"
 import { useMinimizeOnScroll } from "../../hooks/use-minimize-on-scroll"
 import { SearchIcon } from "../../icons/icons"
 import { cn } from "../../lib/class-names"
@@ -48,6 +48,9 @@ export function TabBar<Tab extends TabBarTab>({
     label: string
     className?: string
 }) {
+    // Scopes the sliding selection to this bar, so two bars on one
+    // screen (a docs page, a split view) never trade their highlight.
+    const selectionId = `${useId()}-tab-selection`
     const [scrolledAway, setScrolledAway] =
         useMinimizeOnScroll()
     // Only a bar with a current tab has something to shrink to; Android's never shrinks.
@@ -98,7 +101,7 @@ export function TabBar<Tab extends TabBarTab>({
                             <>
                                 {current && (
                                     <motion.span
-                                        layoutId="hino-tab-selection"
+                                        layoutId={selectionId}
                                         className="glass-lens absolute inset-0 -z-10 rounded-full"
                                         transition={
                                             spring.snappy

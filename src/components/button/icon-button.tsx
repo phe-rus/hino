@@ -1,5 +1,6 @@
 import { type ButtonHTMLAttributes, forwardRef } from "react"
 import { cn } from "../../lib/class-names"
+import { PendingSpinner } from "./pending-spinner"
 import { usePendingIndicator } from "./use-pending-indicator"
 import {
     buttonVariants,
@@ -47,23 +48,26 @@ export const IconButton = forwardRef<
             data-tooltip={label}
             className={cn(
                 "relative",
-                "group inline-flex shrink-0 items-center justify-center rounded-full transition-[background-color,filter,transform,box-shadow] duration-fast ease-standard active:scale-[0.92] disabled:pointer-events-none disabled:opacity-40",
+                "group inline-flex shrink-0 items-center justify-center rounded-full transition-[background-color,filter,transform,box-shadow] duration-fast ease-standard active:scale-[0.92] disabled:pointer-events-none disabled:opacity-40 data-pending:cursor-progress data-pending:disabled:opacity-100",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                 iconButtonSizes[size],
                 buttonVariants[variant],
                 className
             )}
             {...props}
+            data-pending={isPending || undefined}
             disabled={disabled || isPending}
             aria-busy={isPending || props["aria-busy"]}
         >
-            {showPendingIndicator && (
-                <span
-                    aria-hidden="true"
-                    className="absolute inset-0 m-auto size-3 animate-spin rounded-full border-2 border-current border-t-transparent motion-reduce:animate-none"
-                />
-            )}
-            {children}
+            <span
+                className={cn(
+                    "inline-flex items-center justify-center transition-opacity duration-200",
+                    showPendingIndicator && "opacity-0"
+                )}
+            >
+                {children}
+            </span>
+            {showPendingIndicator && <PendingSpinner />}
         </button>
     )
 })

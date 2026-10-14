@@ -14,11 +14,18 @@ export const textControlClasses = cn(
     "disabled:cursor-not-allowed disabled:opacity-40 aria-invalid:border-danger"
 )
 
+const fieldIconClasses =
+    "flex shrink-0 items-center text-label-secondary"
+
 export type TextFieldProps = ComponentProps<"input"> & {
     label: string
     description?: ReactNode
     errors?: string[]
+    /** A decorative icon before the text, such as a mail glyph. */
     icon?: ReactNode
+    /** A decorative icon after the text, such as a unit or a check. */
+    trailingIcon?: ReactNode
+    /** An interactive control after the text, such as a clear button. */
     action?: ReactNode
     revealLabels?: { show: string; hide: string }
 }
@@ -28,6 +35,7 @@ export function TextField({
     description,
     errors = [],
     icon,
+    trailingIcon,
     action,
     revealLabels,
     type = "text",
@@ -49,7 +57,14 @@ export function TextField({
                 {label}
             </label>
             <div className="flex items-center gap-2 rounded-xl border border-separator bg-elevated px-3 focus-within:outline-2 focus-within:outline-accent-text">
-                {icon}
+                {icon && (
+                    <span
+                        aria-hidden
+                        className={fieldIconClasses}
+                    >
+                        {icon}
+                    </span>
+                )}
                 <input
                     {...props}
                     id={id}
@@ -66,6 +81,14 @@ export function TextField({
                         className
                     )}
                 />
+                {trailingIcon && (
+                    <span
+                        aria-hidden
+                        className={fieldIconClasses}
+                    >
+                        {trailingIcon}
+                    </span>
+                )}
                 {reveal && (
                     <Button
                         variant="ghost"

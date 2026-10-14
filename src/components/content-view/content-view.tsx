@@ -36,7 +36,7 @@ type SubProps = ComponentPropsWithoutRef<"sub">
 
 const variants = {
     elevated: cn(
-        "rounded-2xl bg-card border border-border/35",
+        "rounded-2xl bg-elevated border border-separator/35",
         "shadow hover:shadow-md cursor-pointer group"
     ),
 } as const
@@ -125,7 +125,7 @@ function Header({
 }
 
 function Divider() {
-    return <span className="h-16 w-px bg-border" />
+    return <span className="h-16 w-px bg-separator" />
 }
 
 function H1({ className, children, ...props }: H1Props) {
@@ -162,7 +162,7 @@ function Span({ className, children, ...props }: SpanProps) {
     return (
         <span
             className={cn(
-                "text-base tracking-tighter font-light",
+                "text-callout tracking-tighter font-light",
                 className
             )}
             {...props}
@@ -175,7 +175,10 @@ function Span({ className, children, ...props }: SpanProps) {
 function Sub({ className, children, ...props }: SubProps) {
     return (
         <sub
-            className={cn("text-sm text-primary", className)}
+            className={cn(
+                "text-subheadline text-label",
+                className
+            )}
             {...props}
         >
             {children}

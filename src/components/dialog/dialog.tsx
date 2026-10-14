@@ -1,12 +1,12 @@
-import { Sheet } from "@hino/ui/sheet"
+import { Sheet } from "@phe-rus/hino/sheet"
 import {
     AnimatePresence,
     motion,
     useReducedMotion,
 } from "motion/react"
 import { createPortal } from "react-dom"
-import { Button } from "@hino/ui/button"
-import { cn } from "@hino/ui/cn"
+import { Button } from "@phe-rus/hino/button"
+import { cn } from "@phe-rus/hino/cn"
 import {
     createContext,
     useContext,
@@ -61,7 +61,7 @@ export function Dialog({
             {presentation !== "inline" && (
                 <h2
                     id={titleId}
-                    className="text-title-3 font-semibold"
+                    className="text-title3 font-semibold"
                 >
                     {title}
                 </h2>
