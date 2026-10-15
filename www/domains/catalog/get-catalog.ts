@@ -1,6 +1,7 @@
 import {
     Analytics01Icon,
     Calendar03Icon,
+    Clock01Icon,
     ColorsIcon,
     InputTextIcon,
     LabelIcon,
@@ -50,6 +51,7 @@ import {
     toggleDocs,
     datePickerDocs,
     compactDatePickerDocs,
+    compactTimePickerDocs,
     textEditorDocs,
     searchListDocs,
     profileImageDocs,
@@ -84,6 +86,7 @@ import { swatchPickerContent } from "./content/swatch-picker"
 import { textFieldContent } from "./content/text-field"
 import { toggleContent } from "./content/toggle"
 import { compactDatePickerContent } from "./content/compact-date-picker"
+import { compactTimePickerContent } from "./content/compact-time-picker"
 import { datePickerContent } from "./content/date-picker"
 import { textEditorContent } from "./content/text-editor"
 import { searchListContent } from "./content/search-list"
@@ -178,6 +181,12 @@ const entries: CatalogEntry[] = [
         icon: Calendar03Icon,
         docs: compactDatePickerDocs,
         content: compactDatePickerContent,
+    },
+    {
+        group: "Inputs",
+        icon: Clock01Icon,
+        docs: compactTimePickerDocs,
+        content: compactTimePickerContent,
     },
     {
         group: "Inputs",

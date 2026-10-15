@@ -20,9 +20,9 @@ import {
     ChevronRightIcon,
 } from "../../icons/icons"
 import { cn } from "../../lib/class-names"
+import { placeAnchored } from "../../lib/anchored-placement"
 import { registerFloatingLayer } from "../../lib/floating-layers"
 import { haptic } from "../../lib/haptics"
-import { screenEdges } from "../../lib/screen-edges"
 import { spring } from "../../motion/transitions"
 import { IconButton } from "../button/icon-button"
 import {
@@ -56,7 +56,6 @@ export interface CompactDatePickerProps {
     className?: string
 }
 
-const GAP = 6
 const WIDTH = 308
 
 const toDate = ({ year, month, day }: CalendarDay) =>
@@ -161,33 +160,6 @@ export function CompactDatePicker({
     )
 }
 
-function place(anchor: HTMLElement) {
-    const rect = anchor.getBoundingClientRect()
-    const viewport = window.visualViewport
-    const height = viewport?.height ?? window.innerHeight
-    const screenWidth = viewport?.width ?? window.innerWidth
-    const edges = screenEdges()
-    const width = Math.min(
-        WIDTH,
-        screenWidth - edges.left - edges.right
-    )
-    const left = Math.min(
-        Math.max(edges.left, rect.left),
-        screenWidth - width - edges.right
-    )
-    const below = height - rect.bottom - GAP - edges.bottom
-    const above =
-        below < 360 && rect.top - GAP - edges.top > below
-    return above
-        ? {
-              left,
-              width,
-              bottom: height - rect.top + GAP,
-              above,
-          }
-        : { left, width, top: rect.bottom + GAP, above }
-}
-
 function MonthCalendar({
     id,
     anchor,
@@ -213,7 +185,9 @@ function MonthCalendar({
 }) {
     const root = useRef<HTMLDivElement>(null)
     const reducedMotion = useReducedMotion()
-    const [placement] = useState(() => place(anchor))
+    const [placement] = useState(() =>
+        placeAnchored(anchor, WIDTH, 360)
+    )
     const today = todayDay()
     const [focused, setFocused] = useState<CalendarDay>(
         () => parseDay(value) ?? today

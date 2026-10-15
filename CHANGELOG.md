@@ -1,5 +1,11 @@
 # Changelog
 
+## UI 0.1.5
+
+* UI: add `CompactTimePicker`, a time shown as a button that opens
+  columns of hours and minutes, on the locale's 12 or 24 hour clock.
+* UI: compact pickers share one anchored placement helper.
+
 ## UI 0.1.4
 
 * UI: add `CompactDatePicker`, a date shown as a button that opens a
