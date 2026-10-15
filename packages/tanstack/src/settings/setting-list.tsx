@@ -1,4 +1,7 @@
-import { IconButton } from "@phe-rus/hino/icon-button"
+import {
+    IconButton,
+    type IconButtonSize,
+} from "@phe-rus/hino/icon-button"
 import {
     ArrowRight01Icon,
     Copy01Icon,
@@ -217,14 +220,18 @@ function Row({
 function Copy({
     value,
     label = "Copy",
+    size = "icon-xs",
 }: {
     value: string
     label?: string
+    /** Quiet and row-sized by default; any of Hino's icon sizes. */
+    size?: IconButtonSize
 }) {
     const [copied, setCopied] = useState(false)
     return (
         <IconButton
-            size="icon-sm"
+            variant="ghost"
+            size={size}
             label={label}
             onClick={async (event) => {
                 event.stopPropagation()
@@ -235,6 +242,7 @@ function Copy({
         >
             <HugeiconsIcon
                 icon={copied ? Tick02Icon : Copy01Icon}
+                className="size-4"
             />
         </IconButton>
     )
