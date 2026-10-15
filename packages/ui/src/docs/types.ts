@@ -130,9 +130,9 @@ type ExactOptions<C, P> = {
         ? C[K] extends { kind: "select"; options: infer O }
             ? {
                   options: {
-                      [Option in keyof O]: Option extends NonNullable<
-                          P[K]
-                      >
+                      [
+                          Option in keyof O
+                      ]: Option extends NonNullable<P[K]>
                           ? true
                           : never
                   }

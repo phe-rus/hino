@@ -64,8 +64,7 @@ export function ContextMenuList() {
                                 item.id === note.id
                                     ? {
                                           ...item,
-                                          pinned:
-                                              !item.pinned,
+                                          pinned: !item.pinned,
                                       }
                                     : item
                             )

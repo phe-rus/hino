@@ -65,9 +65,8 @@ test("runs the chosen package manager without shell interpretation and reports i
     )
     directories.push(root)
     const bin = join(root, "bin")
-    const { mkdir, chmod, readFile } = await import(
-        "node:fs/promises"
-    )
+    const { mkdir, chmod, readFile } =
+        await import("node:fs/promises")
     await mkdir(bin)
     const executable = join(bin, "npm")
     await writeFile(

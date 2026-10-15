@@ -30,12 +30,8 @@ function loadHighlighter() {
                 import("shiki/langs/markdown.mjs"),
             ],
             themes: [
-                import(
-                    "shiki/themes/github-light-default.mjs"
-                ),
-                import(
-                    "shiki/themes/github-dark-default.mjs"
-                ),
+                import("shiki/themes/github-light-default.mjs"),
+                import("shiki/themes/github-dark-default.mjs"),
             ],
             engine: engine.createJavaScriptRegexEngine(),
         })

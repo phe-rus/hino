@@ -11,8 +11,7 @@ import {
 
 export type { IconButtonSize }
 
-export interface IconButtonProps
-    extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     /** Required: icon-only buttons need an accessible name. */
     label: string
     variant?: ButtonVariant
