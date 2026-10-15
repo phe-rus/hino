@@ -95,7 +95,7 @@ export function SearchList({
                     )
                     if (event.key === "Enter") {
                         event.preventDefault()
-                        ;(items[index] ?? items[0]).click()
+                        ;(items[index] ?? items[0])?.click()
                         return
                     }
                     if (
@@ -115,8 +115,10 @@ export function SearchList({
                                       : -1) +
                                   items.length) %
                               items.length
-                    setActive(items[next].id)
-                    items[next].scrollIntoView({
+                    const item = items[next]
+                    if (!item) return
+                    setActive(item.id)
+                    item.scrollIntoView({
                         block: "nearest",
                     })
                 }}

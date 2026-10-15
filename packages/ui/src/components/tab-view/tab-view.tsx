@@ -81,7 +81,8 @@ export function TabView<Value extends string>({
                             next =
                                 (next + options.length) %
                                 options.length
-                            setSelected(options[next].value)
+                            const option = options[next]
+                            if (option) setSelected(option.value)
                             buttons.current[next]?.focus()
                         }}
                         className={cn(

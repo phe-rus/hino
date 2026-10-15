@@ -1,5 +1,11 @@
 # Changelog
 
+## UI 0.1.3
+
+* UI: guard keyboard navigation in `SearchList` and `TabView` against
+  missing items, so apps compiling Hino's source with
+  `noUncheckedIndexedAccess` typecheck cleanly.
+
 ## UI and TanStack integration 0.1.2
 
 * UI: size TextField Show and Hide controls to their input, retaining
