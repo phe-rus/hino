@@ -15,6 +15,17 @@ const config = defineConfig({
         cors: false,
     },
     resolve: {
+        // one copy of each context-holding package: Hino's own
+        // node_modules can hold a second React Query, and a split copy
+        // throws "No QueryClient set" in production
+        dedupe: [
+            "react",
+            "react-dom",
+            "@tanstack/react-query",
+            "@tanstack/react-router",
+            "@tanstack/react-start",
+            "@tanstack/react-form",
+        ],
         tsconfigPaths: true,
         alias: {
             "@": path.resolve(import.meta.dirname, "."),
