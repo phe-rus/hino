@@ -4,10 +4,10 @@
     "license": "MIT",
     "type": "module",
     "scripts": {
-        "dev": "vite dev --port=3004 --strictPort",
-        "build": "NODE_ENV=production vite build",
+        "dev": "vp dev --port=3004 --strictPort",
+        "build": "NODE_ENV=production vp build",
         "deploy": "bun run build && wrangler deploy",
-        "preview": "vite preview --port=3004 --strictPort",
+        "preview": "vp preview --port=3004 --strictPort",
         "type-gen": "wrangler types",
         "typecheck": "tsc --noEmit",
         "test": "bun test",
@@ -38,7 +38,8 @@
         "@vitejs/plugin-react": "^6.1.1",
         "babel-plugin-react-compiler": "^1.0.0",
         "typescript": "^7.0.2",
-        "vite": "^8.3.1",
-        "wrangler": "^4.149.0"
+        "vite": "npm:@voidzero-dev/vite-plus-core@1.2.0",
+        "wrangler": "^4.149.0",
+        "vite-plus": "1.2.0"
     }
 }

@@ -13,5 +13,12 @@
         "test": "bun run --filter '@phe-rus/*' test && bun run --cwd www test",
         "publish:check": "bun run --filter '@phe-rus/*' publish:check",
         "build:website": "bun run --cwd www build"
+    },
+    "overrides": {
+        "vite": "npm:@voidzero-dev/vite-plus-core@1.2.0"
+    },
+    "devDependencies": {
+        "vite": "npm:@voidzero-dev/vite-plus-core@1.2.0",
+        "vite-plus": "1.2.0"
     }
 }

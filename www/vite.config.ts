@@ -1,4 +1,4 @@
-import { defineConfig } from "vite"
+import { defineConfig, lazyPlugins } from "vite-plus"
 import { cloudflare } from "@cloudflare/vite-plugin"
 import { tanstackStart } from "@tanstack/react-start/plugin/vite"
 import babel from "@rolldown/plugin-babel"
@@ -24,7 +24,7 @@ const config = defineConfig({
         target: "esnext",
         cssCodeSplit: true,
     },
-    plugins: [
+    plugins: lazyPlugins(() => [
         cloudflare({
             viteEnvironment: {
                 name: "ssr",
@@ -37,7 +37,7 @@ const config = defineConfig({
             presets: [reactCompilerPreset()],
         }),
         viteReact(),
-    ],
+    ]),
 })
 
 export default config
