@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs"
 import { describe, expect, test } from "vite-plus/test"
 import { getPageHead } from "@/domains/seo/get-page-head"
 import {
@@ -91,4 +92,14 @@ describe("search discovery", () => {
             ).codeRepository
         ).toBe("https://github.com/phe-rus/hino")
     })
+})
+
+test("discovery routes cannot be shadowed by static assets", () => {
+    for (const file of ["robots.txt", "sitemap.xml"]) {
+        expect(
+            existsSync(
+                new URL(`../public/${file}`, import.meta.url)
+            )
+        ).toBe(false)
+    }
 })
