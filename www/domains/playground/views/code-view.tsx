@@ -68,7 +68,7 @@ export function CodeView({
                 {html ? (
                     <div
                         className="[&_pre]:m-0 [&_pre]:overflow-x-auto [&_pre]:p-5 [&_pre]:pe-16 [&_pre]:font-mono [&_pre]:text-footnote [&_pre]:leading-relaxed"
-                        // biome-ignore lint/security/noDangerouslySetInnerHtml: Shiki escapes the displayed example source
+                        // oxlint-disable-next-line react/no-danger -- Shiki escapes the displayed example source
                         dangerouslySetInnerHTML={{
                             __html: html,
                         }}
