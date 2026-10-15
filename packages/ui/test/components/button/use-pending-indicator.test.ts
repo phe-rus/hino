@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test"
+import { expect, test } from "vite-plus/test"
 
 import { schedulePendingIndicator } from "../../../src/components/button/use-pending-indicator"
 

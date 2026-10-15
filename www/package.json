@@ -10,7 +10,7 @@
         "preview": "vp preview --port=3004 --strictPort",
         "type-gen": "wrangler types",
         "typecheck": "tsc --noEmit",
-        "test": "bun test",
+        "test": "vp test",
         "postinstall": "bun run type-gen"
     },
     "dependencies": {

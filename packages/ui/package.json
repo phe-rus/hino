@@ -63,7 +63,7 @@
     },
     "scripts": {
         "generate": "bun tokens/scripts/generate-css.ts",
-        "test": "bun test test tokens/test",
+        "test": "vp test",
         "typecheck": "tsc -p tsconfig.json",
         "publish:check": "bun pm pack --dry-run"
     },
@@ -79,8 +79,9 @@
         "react": "^19.3.0",
         "react-dom": "^19.3.0",
         "typescript": "^7.0.2",
-        "@types/bun": "^1.4.2",
-        "tailwindcss": "^4.3.3"
+        "tailwindcss": "^4.3.3",
+        "vite-plus": "1.2.0",
+        "@types/node": "^26.6.3"
     },
     "dependencies": {
         "@hugeicons/core-free-icons": "4.3.5",

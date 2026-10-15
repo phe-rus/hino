@@ -1,5 +1,6 @@
-import { expect, test } from "bun:test"
+import { expect, test } from "vite-plus/test"
 import { posix } from "node:path"
+import { parseSync } from "vite-plus"
 import { starterFiles } from "../src/templates"
 
 test.each(["vite", "tanstack"] as const)(
@@ -12,19 +13,15 @@ test.each(["vite", "tanstack"] as const)(
                 !path.endsWith(".ts")
             )
                 continue
-            const parser = new Bun.Transpiler({
-                loader: path.endsWith(".tsx") ? "tsx" : "ts",
-            })
-            expect(() =>
-                parser.transformSync(source)
-            ).not.toThrow()
-            const { imports } = parser.scan(source)
-            for (const module of imports) {
-                if (!module.path.startsWith(".")) continue
+            const parsed = parseSync(path, source)
+            expect(parsed.errors).toEqual([])
+            for (const entry of parsed.module.staticImports) {
+                const specifier = entry.moduleRequest.value
+                if (!specifier.startsWith(".")) continue
                 const target = posix.normalize(
                     posix.join(
                         posix.dirname(path),
-                        module.path.replace(/\?url$/, "")
+                        specifier.replace(/\?url$/, "")
                     )
                 )
                 if (target.endsWith("routeTree.gen")) continue

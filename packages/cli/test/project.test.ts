@@ -1,4 +1,9 @@
-import { afterEach, describe, expect, test } from "bun:test"
+import {
+    afterEach,
+    describe,
+    expect,
+    test,
+} from "vite-plus/test"
 import {
     mkdtemp,
     readFile,
@@ -153,9 +158,11 @@ describe("existing project setup", () => {
         expect(plan.files["hino/styles.css"]).toContain(
             "hino-tanstack/styles.css"
         )
-        expect(plan.files["hino/providers.tsx"]).toStartWith(
-            '"use client"'
-        )
+        expect(
+            plan.files["hino/providers.tsx"]?.startsWith(
+                '"use client"'
+            )
+        ).toBe(true)
         expect(plan.files["hino/README.md"]).toContain(
             "transpilePackages"
         )

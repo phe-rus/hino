@@ -1,9 +1,9 @@
-import { describe, expect, test } from "bun:test"
-import { existsSync, readFileSync } from "node:fs"
+import { describe, expect, test } from "vite-plus/test"
+import { existsSync, globSync, readFileSync } from "node:fs"
 import { join } from "node:path"
 import { registry } from "../../src/docs/registry"
 
-const root = join(import.meta.dir, "../..")
+const root = join(import.meta.dirname, "../..")
 const components = join(root, "src/components")
 const exportsMap: Record<string, string> = JSON.parse(
     readFileSync(join(root, "package.json"), "utf8")
@@ -18,9 +18,9 @@ const pascal = (name: string) =>
 /** Every docs file lives next to its examples; find a slug's folder. */
 function examplePath(slug: string, id: string) {
     const file = `${slug}-${id}.tsx`
-    for (const folder of new Bun.Glob(
-        `*/examples/${file}`
-    ).scanSync(components))
+    for (const folder of globSync(`*/examples/${file}`, {
+        cwd: components,
+    }))
         return join(components, folder)
     return null
 }

@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test"
+import { describe, expect, test } from "vite-plus/test"
 import type { RegisteredDocs } from "@phe-rus/hino/docs"
 import { resolveProps } from "@/domains/catalog/resolve-props"
 import { getSnippet } from "@/domains/playground/get-snippet"

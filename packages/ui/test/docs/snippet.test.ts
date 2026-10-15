@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test"
+import { expect, test } from "vite-plus/test"
 import { jsxAttribute, jsxText } from "../../src/docs/snippet"
 
 test("plain attribute values are quoted", () => {

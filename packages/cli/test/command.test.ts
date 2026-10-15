@@ -1,4 +1,4 @@
-import { afterEach, expect, test } from "bun:test"
+import { afterEach, expect, test } from "vite-plus/test"
 import { version } from "../package.json"
 import {
     mkdtemp,
@@ -11,7 +11,8 @@ import { join, resolve } from "node:path"
 import { spawnSync } from "node:child_process"
 
 const directories: string[] = []
-const entry = resolve(import.meta.dir, "../src/index.ts")
+// the published bin, built by the test script first
+const entry = resolve(import.meta.dirname, "../dist/hino.js")
 function run(args: string[]) {
     return spawnSync(process.execPath, [entry, ...args], {
         encoding: "utf8",

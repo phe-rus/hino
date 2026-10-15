@@ -24,20 +24,26 @@ const config = defineConfig({
         target: "esnext",
         cssCodeSplit: true,
     },
-    plugins: lazyPlugins(() => [
-        cloudflare({
-            viteEnvironment: {
-                name: "ssr",
-            },
-            persistState: true,
-        }),
-        tailwindcss(),
-        tanstackStart(),
-        babel({
-            presets: [reactCompilerPreset()],
-        }),
-        viteReact(),
-    ]),
+    // unit tests need only the @ alias; the Cloudflare plugin would move
+    // them into a Workers runtime
+    plugins: lazyPlugins(() =>
+        process.env.VITEST
+            ? []
+            : [
+                  cloudflare({
+                      viteEnvironment: {
+                          name: "ssr",
+                      },
+                      persistState: true,
+                  }),
+                  tailwindcss(),
+                  tanstackStart(),
+                  babel({
+                      presets: [reactCompilerPreset()],
+                  }),
+                  viteReact(),
+              ]
+    ),
 })
 
 export default config

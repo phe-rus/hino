@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test"
+import { expect, test } from "vite-plus/test"
 import { dateValue } from "../../../src/components/date-picker/date-value"
 
 test("preserves date-only values and pads segments", () => {

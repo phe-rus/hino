@@ -28,13 +28,13 @@
     "scripts": {
         "build": "bun build src/index.ts --target=node --outfile=dist/hino.js && chmod +x dist/hino.js",
         "typecheck": "tsc --noEmit",
-        "test": "bun test test",
+        "test": "bun run build && vp test",
         "prepack": "bun run build",
         "publish:check": "bun pm pack --dry-run"
     },
     "devDependencies": {
         "@types/node": "^26.6.3",
-        "@types/bun": "^1.4.2",
-        "typescript": "^7.0.2"
+        "typescript": "^7.0.2",
+        "vite-plus": "1.2.0"
     }
 }

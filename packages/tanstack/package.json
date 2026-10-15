@@ -20,7 +20,7 @@
     ],
     "scripts": {
         "typecheck": "tsc --noEmit",
-        "test": "bun test",
+        "test": "vp test",
         "publish:check": "bun pm pack --dry-run"
     },
     "dependencies": {
@@ -47,7 +47,7 @@
         "@types/react-dom": "^19.3.0",
         "tailwindcss": "^4.3.3",
         "typescript": "^7.0.2",
-        "@types/bun": "^1.4.2"
+        "vite-plus": "1.2.0"
     },
     "exports": {
         "./forms": "./src/forms/index.ts",

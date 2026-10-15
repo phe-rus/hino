@@ -24,7 +24,11 @@ outside `src/`. UI tokens retain `tokens/test/` beside `tokens/src/`.
 
 ## Checks and publishing
 
-Use Bun for installation, typecheck, tests and packing. Root scripts
+Use Bun for installation, typecheck and packing; tests run on Vitest
+through Vite+ (`vp test`, importing from `vite-plus/test`), and
+`bun run check` runs Oxfmt and Oxlint from the root `vite.config.ts`.
+The CLI's test script builds `dist/hino.js` first and tests the
+published bin. Root scripts
 run the matching task across Hino packages. CI and public npm release
 workflows live in this repository, not private Pherus.
 
