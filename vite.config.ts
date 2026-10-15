@@ -1,7 +1,7 @@
 import { defineConfig } from "vite-plus"
 
 // Formatting and linting for every Hino package. Same style Pherus
-// applies when this repo is mounted there: 4 spaces, width 62, double
+// uses for its consumers: 4 spaces, width 62, double
 // quotes, no semicolons, imports and package.json never sorted.
 export default defineConfig({
     fmt: {

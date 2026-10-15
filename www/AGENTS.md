@@ -16,7 +16,7 @@ TanStack Start, React compiler, Tailwind through one import (`styles/site.css` i
 
 Component docs code (controls, examples) lives in `../packages/ui`; see [UI guidance](../packages/ui/AGENTS.md).
 
-The website, catalog prose, tests and reusable packages share this public repository. Pherus consumes the repository as a submodule. Tests stay under `test/`, outside `src/`.
+The website, catalog prose, tests and reusable packages share this public repository. Pherus consumes published library releases and does not build this website. Tests stay under `test/`, outside `src/`.
 
 ## Conventions
 
@@ -31,3 +31,10 @@ The website, catalog prose, tests and reusable packages share this public reposi
 `bun run test` (snippet generator and search fallbacks), `bun run typecheck`, `bun run build`. `../packages/ui`'s `bun run test` (`vp test`) covers the registry rules and example file names.
 
 Page metadata lives in `domains/seo/get-page-head.ts`: canonical URLs omit playground search params, with Open Graph and Twitter summary cards using the Hino logo. Preview routes remain noindex. Installation instructions cover the public CLI and manual setup; keep generated AI setup text aligned.
+
+`domains/seo/sitemap.ts` generates `/sitemap.xml` from the guide and
+component catalogs and `/robots.txt` with the canonical sitemap URL.
+No preview, settings query, AI text or invented last modified dates
+belong in the sitemap. `src/server.ts` marks previews and 404 responses
+noindex; preview embedding is limited to the same origin. Structured
+page, website and breadcrumb data live in `get-page-head.ts`.

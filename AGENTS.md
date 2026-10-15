@@ -1,8 +1,8 @@
 # Hino repository
 
 This public Bun workspace repository owns Hino's framework independent
-UI, its optional TanStack integration and its CLI. Pherus mounts it as
-a submodule. The official website lives in `www/` here; Pherus apps
+UI, its optional TanStack integration and its CLI. Develop it as its own checkout, conventionally `~/pherus/hino`.
+Pherus consumes published npm releases, not a submodule or sibling files. The official website lives in `www/` here; Pherus apps
 remain outside this repo.
 
 ## Packages
@@ -38,3 +38,13 @@ no npm token secret is needed. Each package needs its own npm trusted
 publisher matching `phe-rus/hino`, `publish.yml` and `npm-publish`.
 Publish the UI before dependent integration releases. npm versions
 cannot be overwritten. Credentials stay outside tracked files.
+
+Route files contain only imports, `export const Route` and an optional
+`function RouteComponent()`. Helpers and data belong in domains.
+
+For setup, architecture, testing, npm releases and website deployment,
+read [the contributor guide](CONTRIBUTING.md). For changes to public
+URLs or metadata, read [the SEO guide](docs/seo.md).
+
+Use ChromeOS Chrome for browser checks. In Crostini, open links through
+`/usr/bin/garcon-url-handler`. Do not launch a Linux or embedded browser.

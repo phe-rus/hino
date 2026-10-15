@@ -36,3 +36,9 @@ See [UI installation](packages/ui/README.md) and
 [TanStack integration](packages/tanstack/README.md).
 
 MIT licensed.
+
+This repository works independently of Pherus. Consumers install the
+published npm packages; no submodule or sibling checkout is required.
+See [Contributing](CONTRIBUTING.md) for standalone setup, architecture,
+validation, releases and website deployment, and [SEO](docs/seo.md) for
+the sitemap and metadata contract.
