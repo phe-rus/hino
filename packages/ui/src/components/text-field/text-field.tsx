@@ -25,7 +25,7 @@ export type TextFieldProps = ComponentProps<"input"> & {
     icon?: ReactNode
     /** A decorative icon after the text, such as a unit or a check. */
     trailingIcon?: ReactNode
-    /** An interactive control after the text, such as a clear button. */
+    /** An interactive control after the text, such as a clear button. Size it to the field: an `xs` or `icon-xs` button, never the default. */
     action?: ReactNode
     revealLabels?: { show: string; hide: string }
 }
@@ -92,7 +92,10 @@ export function TextField({
                 {reveal && (
                     <Button
                         variant="ghost"
-                        className="shrink-0 whitespace-nowrap"
+                        size="xs"
+                        // sized to sit inside the 44px field; on touch a
+                        // wider invisible area keeps a 44px target
+                        className="-mr-1.5 shrink-0 whitespace-nowrap [@media(pointer:coarse)]:before:absolute [@media(pointer:coarse)]:before:-inset-1.5 [@media(pointer:coarse)]:before:content-['']"
                         aria-controls={id}
                         aria-label={
                             revealed
