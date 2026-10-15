@@ -12,6 +12,7 @@ import { statusIndicatorDocs } from "../components/status-indicator/status-indic
 import { swatchPickerDocs } from "../components/swatch-picker/swatch-picker.docs"
 import { textFieldDocs } from "../components/text-field/text-field.docs"
 import { toggleDocs } from "../components/toggle/toggle.docs"
+import { compactDatePickerDocs } from "../components/compact-date-picker/compact-date-picker.docs"
 import { datePickerDocs } from "../components/date-picker/date-picker.docs"
 import { textEditorDocs } from "../components/text-editor/text-editor.docs"
 import { searchListDocs } from "../components/search-list/search-list.docs"
@@ -50,6 +51,7 @@ export const registry: readonly RegisteredDocs[] = [
     statusIndicatorDocs,
     statTileDocs,
     datePickerDocs,
+    compactDatePickerDocs,
     textEditorDocs,
     searchListDocs,
     profileImageDocs,
@@ -87,6 +89,7 @@ export {
     sidebarDocs,
     viewControllerDocs,
     datePickerDocs,
+    compactDatePickerDocs,
     textEditorDocs,
     searchListDocs,
     profileImageDocs,

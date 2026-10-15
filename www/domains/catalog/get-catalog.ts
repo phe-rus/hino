@@ -49,6 +49,7 @@ import {
     textFieldDocs,
     toggleDocs,
     datePickerDocs,
+    compactDatePickerDocs,
     textEditorDocs,
     searchListDocs,
     profileImageDocs,
@@ -82,6 +83,7 @@ import { statusIndicatorContent } from "./content/status-indicator"
 import { swatchPickerContent } from "./content/swatch-picker"
 import { textFieldContent } from "./content/text-field"
 import { toggleContent } from "./content/toggle"
+import { compactDatePickerContent } from "./content/compact-date-picker"
 import { datePickerContent } from "./content/date-picker"
 import { textEditorContent } from "./content/text-editor"
 import { searchListContent } from "./content/search-list"
@@ -170,6 +172,12 @@ const entries: CatalogEntry[] = [
         icon: Calendar03Icon,
         docs: datePickerDocs,
         content: datePickerContent,
+    },
+    {
+        group: "Inputs",
+        icon: Calendar03Icon,
+        docs: compactDatePickerDocs,
+        content: compactDatePickerContent,
     },
     {
         group: "Inputs",

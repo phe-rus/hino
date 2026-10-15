@@ -55,6 +55,7 @@ export * from "./motion/transitions"
 export * from "./appearance"
 
 export * from "./components/date-picker/date-picker"
+export * from "./components/compact-date-picker/compact-date-picker"
 
 export { Dialog } from "./components/dialog"
 export type {

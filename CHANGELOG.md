@@ -1,5 +1,12 @@
 # Changelog
 
+## UI 0.1.4
+
+* UI: add `CompactDatePicker`, a date shown as a button that opens a
+  month calendar, for dates picked from a calendar (events, invoices).
+  Weeks start on the locale's first day; arrow keys, Page Up and Page
+  Down move through days and months; optional dates can be removed.
+
 ## UI 0.1.3
 
 * UI: guard keyboard navigation in `SearchList` and `TabView` against

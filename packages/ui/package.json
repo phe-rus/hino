@@ -1,6 +1,6 @@
 {
     "name": "@phe-rus/hino",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "description": "Hino: native React controls, design tokens, presentation and appearance.",
     "license": "MIT",
     "repository": {
@@ -45,6 +45,7 @@
         "./theme.css": "./tokens/theme.css",
         "./tokens": "./tokens/src/index.ts",
         "./date-picker": "./src/components/date-picker/date-picker.tsx",
+        "./compact-date-picker": "./src/components/compact-date-picker/compact-date-picker.tsx",
         "./view-controller": "./src/components/view-controller/index.ts",
         "./content-view": "./src/components/content-view/index.ts",
         "./ambient": "./src/components/ambient/index.ts",
