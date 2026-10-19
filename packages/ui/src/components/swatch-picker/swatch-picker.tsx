@@ -47,10 +47,10 @@ export function SwatchPicker<T extends string>({
                         />
                         <span
                             className={cn(
-                                "flex size-8 items-center justify-center rounded-full ring-offset-2 ring-offset-elevated transition-[box-shadow,transform] duration-fast group-active:scale-95 peer-focus-visible:ring-2 peer-focus-visible:ring-accent",
+                                "flex size-8 items-center justify-center rounded-full ring-offset-1 ring-offset-elevated transition-[box-shadow,transform] duration-fast group-active:scale-95 peer-focus-visible:ring-2 peer-focus-visible:ring-accent",
                                 selected
-                                    ? "ring-2 ring-label/70"
-                                    : "ring-0 group-hover:ring-2 group-hover:ring-separator"
+                                    ? "ring-[1.5px] ring-label/70"
+                                    : "ring-0 group-hover:ring-[1.5px] group-hover:ring-separator"
                             )}
                             style={{
                                 background: option.color,

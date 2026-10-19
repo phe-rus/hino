@@ -31,7 +31,7 @@ export function buttonStyle({
         "group relative inline-flex shrink-0 select-none items-center justify-center gap-2 whitespace-nowrap font-semibold tracking-[-0.005em]",
         "transition-[background-color,filter,transform,box-shadow] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.98]",
         "motion-reduce:transform-none motion-reduce:transition-none disabled:pointer-events-none disabled:opacity-40",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-1 focus-visible:ring-offset-background",
         buttonSizes[size],
         buttonVariants[variant],
         className

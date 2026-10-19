@@ -48,7 +48,7 @@ export const IconButton = forwardRef<
             className={cn(
                 "relative",
                 "group inline-flex shrink-0 items-center justify-center rounded-full transition-[background-color,filter,transform,box-shadow] duration-fast ease-standard active:scale-[0.92] disabled:pointer-events-none disabled:opacity-40 data-pending:cursor-progress data-pending:disabled:opacity-100",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-1 focus-visible:ring-offset-background",
                 iconButtonSizes[size],
                 buttonVariants[variant],
                 className
