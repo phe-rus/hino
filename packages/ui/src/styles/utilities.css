@@ -19,6 +19,15 @@
 @custom-variant windows (&:where([data-os="windows"], [data-os="windows"] *));
 @custom-variant linux (&:where([data-os="linux"], [data-os="linux"] *));
 
+/*
+ * The sea-salt grain: a faint mineral noise that mattes the glass down,
+ * like weathered sea glass rather than polished crystal. One tile, reused
+ * by every glass surface.
+ */
+:root {
+  --grain-sea-salt: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
 /** Centered page container with comfortable gutters. */
 @utility container {
   margin-inline: auto;
@@ -105,13 +114,15 @@
  */
 @utility glass {
   background-color: var(--color-glass-tint);
-  background-image: linear-gradient(
-    135deg,
-    var(--color-glass-sheen),
-    transparent 42%,
-    transparent 70%,
-    color-mix(in srgb, var(--color-glass-sheen) 50%, transparent)
-  );
+  background-image:
+    linear-gradient(
+      135deg,
+      var(--color-glass-sheen),
+      transparent 42%,
+      transparent 70%,
+      color-mix(in srgb, var(--color-glass-sheen) 50%, transparent)
+    ),
+    var(--grain-sea-salt);
   backdrop-filter: blur(12px) saturate(190%) brightness(1.05);
   box-shadow:
     inset 1px 1.5px 0 -0.5px var(--color-glass-specular),
@@ -193,9 +204,10 @@
  */
 @utility glass-menu {
   background-color: color-mix(in srgb, var(--color-elevated) 97%, transparent);
+  background-image: var(--grain-sea-salt);
   backdrop-filter: blur(24px) saturate(180%);
   box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--color-separator) 80%, transparent),
+    inset 0 0 0 0.5px color-mix(in srgb, var(--color-separator) 90%, transparent),
     0 18px 48px -12px var(--color-shadow-menu);
 }
 
@@ -220,6 +232,6 @@
     background-color: var(--color-elevated);
     box-shadow:
       inset 0 0 0 1px color-mix(in srgb, var(--color-accent) 70%, var(--color-separator)),
-      0 0 0 4px color-mix(in srgb, var(--color-accent) 22%, transparent);
+      0 0 0 3px color-mix(in srgb, var(--color-accent) 18%, transparent);
   }
 }
