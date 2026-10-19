@@ -21,6 +21,10 @@ import {
     SelectorIcon,
 } from "../../icons/icons"
 import { cn } from "../../lib/class-names"
+import {
+    type AnchoredPlacement,
+    placeInViewport,
+} from "../../lib/anchored-placement"
 import { registerFloatingLayer } from "../../lib/floating-layers"
 import { haptic } from "../../lib/haptics"
 import { screenEdges } from "../../lib/screen-edges"
@@ -35,7 +39,6 @@ export interface PickerOption<T extends string> {
     lang?: string
 }
 
-const GAP = 6
 /** Long lists get a filter field, as in the system pickers. */
 const SEARCH_FROM = 10
 
@@ -160,49 +163,28 @@ export function Picker<T extends string>({
     )
 }
 
-interface Placement {
-    left: number
-    width: number
-    top?: number
-    bottom?: number
-    maxHeight: number
-    above: boolean
-}
-
-function place(anchor: HTMLElement): Placement {
+function place(anchor: HTMLElement): AnchoredPlacement {
     const rect = anchor.getBoundingClientRect()
     const viewport = window.visualViewport
-    const height = viewport?.height ?? window.innerHeight
-    const screenWidth = viewport?.width ?? window.innerWidth
-    const edges = screenEdges()
-    const width = Math.min(
-        Math.max(rect.width, 220),
-        360,
-        screenWidth - edges.left - edges.right
-    )
-    const left = Math.min(
-        Math.max(edges.left, rect.left),
-        screenWidth - width - edges.right
-    )
-    const below = height - rect.bottom - GAP - edges.bottom
-    const aboveSpace = rect.top - GAP - edges.top
-    // Open downward unless the list would be cramped there and there's more room above.
-    const above = below < 240 && aboveSpace > below
-    return above
-        ? {
-              left,
-              width,
-              bottom: height - rect.top + GAP,
-              maxHeight: Math.min(aboveSpace, 420),
-              above,
-          }
-        : {
-              left,
-              width,
-              top: rect.bottom + GAP,
-              maxHeight: Math.min(below, 420),
-              above,
-          }
+    const frame = {
+        anchor: {
+            top: rect.top,
+            bottom: rect.bottom,
+            left: rect.left,
+        },
+        viewport: {
+            width: viewport?.width ?? window.innerWidth,
+            height: viewport?.height ?? window.innerHeight,
+        },
+        edges: screenEdges(),
+    }
+    const width = Math.min(Math.max(rect.width, 220), 360)
+    const placed = placeInViewport(frame, width, 240)
+    // Long lists scroll rather than stretch past 420 px.
+    return {
+        ...placed,
+        maxHeight: Math.min(placed.maxHeight ?? 420, 420),
+    }
 }
 
 function SelectList<T extends string>({

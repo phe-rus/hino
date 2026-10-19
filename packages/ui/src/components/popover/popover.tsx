@@ -17,10 +17,17 @@ export interface PopoverProps extends HTMLMotionProps<"div"> {
     origin?: PopoverOrigin
 }
 
+interface PopoverFit {
+    shift: number
+    maxWidth?: number
+    maxHeight?: number
+}
+
 /**
  * A glass surface that springs open from its anchor. Position it with
  * `className` (it is absolutely positioned within a relative parent); it
- * moves itself back inside the screen if that would cross an edge.
+ * moves itself back inside the screen if that would cross an edge, and
+ * keeps checking while the viewport resizes or anything scrolls.
  */
 export function Popover({ open, ...props }: PopoverProps) {
     return (
@@ -39,34 +46,49 @@ function OpenPopover({
 }: Omit<PopoverProps, "open">) {
     const ref = useRef<HTMLDivElement>(null)
     const reducedMotion = useReducedMotion()
-    const [fit, setFit] = useState<{
-        shift: number
-        maxHeight?: number
-    }>({ shift: 0 })
+    const [fit, setFit] = useState<PopoverFit>({ shift: 0 })
 
     useLayoutEffect(() => {
-        const element = ref.current
-        if (!element) return
-        // Where it sits once open: measured without the opening scale, before paint.
-        const transform = element.style.transform
-        element.style.transform = "none"
-        const rect = element.getBoundingClientRect()
-        element.style.transform = transform
-        const edges = screenEdges()
-        const right = window.innerWidth - edges.right
-        let shift = 0
-        if (rect.right > right) shift = right - rect.right
-        if (rect.left + shift < edges.left)
-            shift = edges.left - rect.left
-        const room =
-            window.innerHeight - edges.bottom - rect.top
-        setFit({
-            shift,
-            maxHeight:
-                rect.height > room
-                    ? Math.max(room, 160)
-                    : undefined,
-        })
+        const refit = () => {
+            const element = ref.current
+            if (!element) return
+            // Where it sits once open: measured without the opening scale, before paint.
+            const transform = element.style.transform
+            element.style.transform = "none"
+            const rect = element.getBoundingClientRect()
+            element.style.transform = transform
+            const edges = screenEdges()
+            const right = window.innerWidth - edges.right
+            let shift = 0
+            if (rect.right > right) shift = right - rect.right
+            if (rect.left + shift < edges.left)
+                shift = edges.left - rect.left
+            const room =
+                window.innerHeight - edges.bottom - rect.top
+            setFit({
+                shift,
+                maxWidth:
+                    window.innerWidth -
+                    edges.left -
+                    edges.right,
+                maxHeight:
+                    rect.height > room
+                        ? Math.max(room, 0)
+                        : undefined,
+            })
+        }
+        refit()
+        const viewport = window.visualViewport
+        viewport?.addEventListener("resize", refit)
+        viewport?.addEventListener("scroll", refit)
+        window.addEventListener("resize", refit)
+        window.addEventListener("scroll", refit, true)
+        return () => {
+            viewport?.removeEventListener("resize", refit)
+            viewport?.removeEventListener("scroll", refit)
+            window.removeEventListener("resize", refit)
+            window.removeEventListener("scroll", refit, true)
+        }
     }, [])
 
     return (
@@ -99,6 +121,7 @@ function OpenPopover({
                         ? "0% 0%"
                         : "100% 0%",
                 x: fit.shift,
+                maxWidth: fit.maxWidth,
                 maxHeight: fit.maxHeight,
                 overflowY: fit.maxHeight ? "auto" : undefined,
                 ...style,

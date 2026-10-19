@@ -14,7 +14,7 @@ import {
 import { createPortal } from "react-dom"
 import { FLOATING_LAYER } from "../../hooks/use-dismiss"
 import { ClockIcon } from "../../icons/icons"
-import { placeAnchored } from "../../lib/anchored-placement"
+import { useAnchoredPlacement } from "../../hooks/use-anchored-placement"
 import { cn } from "../../lib/class-names"
 import { registerFloatingLayer } from "../../lib/floating-layers"
 import { haptic } from "../../lib/haptics"
@@ -174,8 +174,10 @@ function TimeColumns({
     const root = useRef<HTMLDivElement>(null)
     const reducedMotion = useReducedMotion()
     const twelve = usesTwelveHours(locale)
-    const [placement] = useState(() =>
-        placeAnchored(anchor, twelve ? 240 : 180, 280)
+    const placement = useAnchoredPlacement(
+        anchor,
+        twelve ? 240 : 180,
+        280
     )
     const number = new Intl.NumberFormat(locale, {
         minimumIntegerDigits: 2,
@@ -275,6 +277,10 @@ function TimeColumns({
                 width: placement.width,
                 top: placement.top,
                 bottom: placement.bottom,
+                maxHeight: placement.maxHeight,
+                overflowY: placement.maxHeight
+                    ? "auto"
+                    : undefined,
                 transformOrigin: placement.above
                     ? "50% 100%"
                     : "50% 0%",

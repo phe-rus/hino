@@ -20,9 +20,9 @@ import {
     ChevronRightIcon,
 } from "../../icons/icons"
 import { cn } from "../../lib/class-names"
-import { placeAnchored } from "../../lib/anchored-placement"
 import { registerFloatingLayer } from "../../lib/floating-layers"
 import { haptic } from "../../lib/haptics"
+import { useAnchoredPlacement } from "../../hooks/use-anchored-placement"
 import { spring } from "../../motion/transitions"
 import { IconButton } from "../button/icon-button"
 import {
@@ -185,9 +185,7 @@ function MonthCalendar({
 }) {
     const root = useRef<HTMLDivElement>(null)
     const reducedMotion = useReducedMotion()
-    const [placement] = useState(() =>
-        placeAnchored(anchor, WIDTH, 360)
-    )
+    const placement = useAnchoredPlacement(anchor, WIDTH, 360)
     const today = todayDay()
     const [focused, setFocused] = useState<CalendarDay>(
         () => parseDay(value) ?? today
@@ -321,6 +319,10 @@ function MonthCalendar({
                 width: placement.width,
                 top: placement.top,
                 bottom: placement.bottom,
+                maxHeight: placement.maxHeight,
+                overflowY: placement.maxHeight
+                    ? "auto"
+                    : undefined,
                 transformOrigin: placement.above
                     ? "50% 100%"
                     : "50% 0%",
