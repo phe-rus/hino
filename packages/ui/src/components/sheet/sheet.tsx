@@ -4,6 +4,7 @@ import {
     useReducedMotion,
 } from "motion/react"
 import { type ReactNode, useRef } from "react"
+import { useVisualViewport } from "../../hooks/use-visual-viewport"
 import { cn } from "../../lib/class-names"
 import { spring } from "../../motion/transitions"
 import { useSheetFocus } from "./use-sheet-focus"
@@ -39,6 +40,7 @@ function OpenSheet({
 }: Omit<SheetProps, "open">) {
     const panel = useRef<HTMLDivElement>(null)
     const reducedMotion = useReducedMotion()
+    const viewport = useVisualViewport()
     useSheetFocus(panel, onClose)
 
     return (
@@ -47,6 +49,18 @@ function OpenSheet({
                 "fixed inset-0 z-[65] flex items-end justify-center",
                 "sm:items-center sm:p-6"
             )}
+            style={
+                viewport
+                    ? {
+                          top: viewport.top,
+                          left: viewport.left,
+                          width: viewport.width,
+                          height: viewport.height,
+                          bottom: "auto",
+                          right: "auto",
+                      }
+                    : undefined
+            }
         >
             <motion.div
                 aria-hidden="true"
@@ -65,7 +79,7 @@ function OpenSheet({
                 tabIndex={-1}
                 className={cn(
                     "glass-menu relative flex w-full flex-col overflow-hidden",
-                    "max-h-[92dvh] max-w-[560px]",
+                    "max-h-[92%] max-w-[560px]",
                     "rounded-t-sheet sm:rounded-sheet",
                     className
                 )}

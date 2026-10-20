@@ -56,7 +56,7 @@ export function TextField({
             >
                 {label}
             </label>
-            <div className="flex items-center gap-2 rounded-xl border border-separator bg-elevated px-3 focus-within:outline-2 focus-within:outline-accent-text">
+            <div className="flex items-center gap-2 rounded-xl border border-separator bg-elevated px-3 focus-within:ring-1 focus-within:ring-accent/40 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-text/70">
                 {icon && (
                     <span
                         aria-hidden

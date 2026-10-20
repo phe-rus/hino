@@ -58,9 +58,11 @@ colors (`bg-paper`, `text-label-secondary`):
 
 - Grounds: `background`, `sidebar`, `surface`, `paper`, `elevated`, `fill`, `separator`.
   The window ground carries a whisper of the accent: the generated theme
-  mixes `accent-soft` into `background` (14% light, 10% dark), so each
+  mixes `accent-soft` into `background` (6% light, 4% dark), so each
   chosen accent tints the whole app the way iOS's does. Keep other grounds
-  neutral; the tint belongs to the ground alone.
+  neutral; the tint belongs to the ground alone. `app-ground` adds quiet reflected
+  accent at the edges. `scroll-surface` reserves real bottom room through
+  `--scroll-clearance`; scrollbars follow the OS unless explicitly hidden.
 - Text: `label`, `label-secondary`, `label-tertiary`, `ink` (body text on paper).
 - Accent: `accent`, `on-accent`, `accent-text`, `accent-soft`. Set by the
   chosen accent (`data-accent` on the root). **Blush**, the iPhone 15 pink,
@@ -220,3 +222,7 @@ and `npm-publish`. No npm token secret is needed.
 Native controls in `src/` do not import TanStack or application domains. `packages/tanstack/` adapts them to form state, tables and routing. Domain-specific layouts and actions stay in apps. The former `@pherus/ui` package is removed; add missing controls to their native component folder rather than recreating compatibility wrappers.
 
 All three app theme providers set both `class` and `data-theme`. www imports native token and utility styles while retaining its public stylesheet and layout. Keep document scripts outside `<main>` via the document shell's `after` slot.
+
+Viewport-aware shells and sheets use `useVisualViewport()`. It accounts for
+Safari visual viewport changes and Android WebView resizing without subtracting
+the keyboard twice. Sheets focus the panel unless a child requests focus.

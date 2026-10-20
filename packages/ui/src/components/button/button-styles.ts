@@ -32,10 +32,10 @@ export const buttonVariants: Record<ButtonVariant, string> = {
     outline:
         "border border-separator bg-transparent text-label hover:bg-fill/60",
     secondary:
-        "bg-elevated text-label shadow-[inset_0_0_0_1px_var(--color-separator),0_1px_2px_rgb(40_30_0/0.06)] hover:bg-fill/60",
+        "bg-elevated text-label shadow-[inset_0_0_0_0.5px_color-mix(in_srgb,var(--color-separator)_55%,transparent),0_1px_2px_rgb(40_30_0/0.06)] hover:bg-fill/60",
     ghost: "bg-transparent text-label hover:bg-fill/80",
     link: "bg-transparent text-accent-text underline-offset-4 hover:underline",
-    accent: "bg-accent text-on-accent ring-1 ring-accent-text shadow-[inset_0_1px_0_rgb(255_255_255/0.35),0_1px_2px_rgb(60_40_0/0.16),0_6px_16px_-6px_color-mix(in_srgb,var(--color-accent)_70%,transparent)] hover:brightness-[1.04]",
+    accent: "bg-accent text-on-accent ring-1 ring-accent-text/25 shadow-[inset_0_1px_0_rgb(255_255_255/0.35),0_1px_2px_rgb(60_40_0/0.16),0_6px_16px_-6px_color-mix(in_srgb,var(--color-accent)_70%,transparent)] hover:brightness-[1.04]",
 }
 
 export const buttonSizes: Record<ButtonSize, string> = {

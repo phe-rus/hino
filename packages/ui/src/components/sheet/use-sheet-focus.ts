@@ -64,7 +64,7 @@ export function useSheetFocus(
             inFloatingLayer(element)
 
         if (!surface.contains(document.activeElement))
-            focusFirst()
+            surface.focus({ preventScroll: true })
         const leaveModalEnvironment =
             enterModalEnvironment(surface)
 
@@ -94,7 +94,8 @@ export function useSheetFocus(
             const active = document.activeElement
             if (
                 event.shiftKey &&
-                (active === first ||
+                (active === surface ||
+                    active === first ||
                     !surface.contains(active))
             ) {
                 event.preventDefault()

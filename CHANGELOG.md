@@ -1,5 +1,12 @@
 # Changelog
 
+## UI 0.1.7
+
+* Materials: quieter rims and focus wells, neutral grounds with reflected accent.
+* Scrolling: respect system scrollbars and provide a shared scroll surface utility.
+* Viewports: share keyboard and visual viewport measurements across app shells and sheets.
+* Sheets: focus the surface without opening a keyboard unless a child explicitly requests focus.
+
 ## UI 0.1.6
 
 * UI: keep popovers and pickers within safe screen edges through one

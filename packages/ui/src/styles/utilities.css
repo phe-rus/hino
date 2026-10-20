@@ -148,7 +148,7 @@
   background-image: none;
   backdrop-filter: none;
   box-shadow:
-    inset 0 0 0 1px var(--color-separator),
+    inset 0 0 0 0.5px color-mix(in srgb, var(--color-separator) 60%, transparent),
     0 8px 24px -10px var(--color-shadow-floating);
 }
 
@@ -187,7 +187,7 @@
 @utility glass-bar {
   background-color: color-mix(in srgb, var(--color-paper) 72%, transparent);
   backdrop-filter: blur(20px) saturate(180%);
-  box-shadow: inset 0 -1px 0 0 color-mix(in srgb, var(--color-separator) 60%, transparent);
+  box-shadow: inset 0 -1px 0 0 color-mix(in srgb, var(--color-separator) 30%, transparent);
 }
 
 /* Android's web view drops the blur under sticky bars, which left them see-through;
@@ -207,7 +207,8 @@
   background-image: var(--grain-sea-salt);
   backdrop-filter: blur(24px) saturate(180%);
   box-shadow:
-    inset 0 0 0 0.5px color-mix(in srgb, var(--color-separator) 90%, transparent),
+    inset 0 0.5px 0 color-mix(in srgb, var(--color-glass-specular) 40%, transparent),
+    inset 0 0 0 0.5px color-mix(in srgb, var(--color-separator) 40%, transparent),
     0 18px 48px -12px var(--color-shadow-menu);
 }
 
@@ -232,6 +233,23 @@
     background-color: var(--color-elevated);
     box-shadow:
       inset 0 0 0 1px color-mix(in srgb, var(--color-accent) 70%, var(--color-separator)),
-      0 0 0 3px color-mix(in srgb, var(--color-accent) 18%, transparent);
+      0 0 0 1px color-mix(in srgb, var(--color-accent) 30%, transparent);
   }
+}
+
+/** A neutral window ground with quiet reflected accent at its edges. */
+@utility app-ground {
+  background-color: var(--color-background);
+  background-image:
+    radial-gradient(ellipse at 0% 0%, color-mix(in srgb, var(--color-accent-soft) 24%, transparent), transparent 62%),
+    radial-gradient(ellipse at 100% 100%, color-mix(in srgb, var(--color-accent-soft) 12%, transparent), transparent 58%);
+}
+
+/** Native scrolling, with real content room below floating navigation. */
+@utility scroll-surface {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scroll-padding-block: 1rem var(--scroll-clearance, 1rem);
+  padding-bottom: var(--scroll-clearance, 1rem);
 }
