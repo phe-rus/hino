@@ -57,6 +57,10 @@ Semantic roles, light and dark, in `tokens/src/color.ts`, as Tailwind
 colors (`bg-paper`, `text-label-secondary`):
 
 - Grounds: `background`, `sidebar`, `surface`, `paper`, `elevated`, `fill`, `separator`.
+  The window ground carries a whisper of the accent: the generated theme
+  mixes `accent-soft` into `background` (14% light, 10% dark), so each
+  chosen accent tints the whole app the way iOS's does. Keep other grounds
+  neutral; the tint belongs to the ground alone.
 - Text: `label`, `label-secondary`, `label-tertiary`, `ink` (body text on paper).
 - Accent: `accent`, `on-accent`, `accent-text`, `accent-soft`. Set by the
   chosen accent (`data-accent` on the root). **Blush**, the iPhone 15 pink,
@@ -110,6 +114,22 @@ so they follow the theme the person chose rather than only the system's:
 - `glass-bar`: bars attached to an edge, with content scrolling beneath.
 - `glass-pane`: large panes such as the sidebar.
 - `glass-menu`: menus and popovers, nearly opaque so nested text stays legible.
+
+All glass shares the sea-salt grain, one faint SVG noise tile
+(`--grain-sea-salt` in `utilities.css`) that mattes the surface. The
+material is weathered sea glass, not polished crystal: grain over gloss,
+a hairline rim instead of a hard border. Tune the material there, not
+per component.
+
+## Placement
+
+Floating panels (popovers, pickers, the compact date and time pickers)
+share one placement engine: `placeInViewport` in
+`src/lib/anchored-placement.ts` holds the pure math (clamp to the safe
+edges, flip above when below is short, cap the height so the panel
+scrolls instead of crossing the screen), `useAnchoredPlacement` in
+`src/hooks/` adds live re-placement on scroll and resize. Use them; do
+not measure the viewport by hand in a component.
 
 ## CSS layers
 
@@ -176,9 +196,11 @@ breaks loudly and prose stays out of Hino:
 
 ## Repository and public package
 
-This repository owns Hino's UI source. Pherus mounts it as a submodule
-at `packages/hino`; the docs website lives in `www` and the optional
-TanStack integration in `packages/tanstack`, both in this repository. Dependency versions here are explicit so this repo
+This repository owns Hino's UI source and is developed as its own
+checkout (`~/pherus/hino`). Pherus consumes published npm releases, not
+a submodule or sibling files; the docs website lives in `www` and the
+optional TanStack integration in `packages/tanstack`, both in this
+repository. Dependency versions here are explicit so this repo
 can install independently of Pherus's catalogs.
 
 `bun run publish:check` previews the public npm package. Publishing uses

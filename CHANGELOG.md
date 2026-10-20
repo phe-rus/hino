@@ -1,5 +1,13 @@
 # Changelog
 
+## UI 0.1.6
+
+* UI: keep popovers and pickers within safe screen edges through one
+  placement engine, with scrolling when space is limited.
+* Appearance: tint the window ground with the selected accent and add
+  a faint sea-salt grain to glass materials.
+* Controls: slim focus rings while preserving keyboard focus visibility.
+
 ## UI 0.1.5
 
 * UI: add `CompactTimePicker`, a time shown as a button that opens
