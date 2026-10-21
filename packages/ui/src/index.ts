@@ -74,3 +74,5 @@ export type { StatTileTone } from "./components/stat-tile/stat-tile"
 export * from "./hooks/use-visual-viewport"
 
 export { registerFloatingLayer } from "./lib/floating-layers"
+
+export * from "./hooks/use-minimize-on-scroll"

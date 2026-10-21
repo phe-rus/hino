@@ -226,3 +226,7 @@ All three app theme providers set both `class` and `data-theme`. www imports nat
 Viewport-aware shells and sheets use `useVisualViewport()`. It accounts for
 Safari visual viewport changes and Android WebView resizing without subtracting
 the keyboard twice. Sheets focus the panel unless a child requests focus.
+
+`TabBar` accepts `minimizeBehavior`: platform defaults, scroll on every platform,
+or never. App search toolbars can share `useMinimizeOnScroll`; modal and floating
+panel scrolling does not minimize the navigation behind them.

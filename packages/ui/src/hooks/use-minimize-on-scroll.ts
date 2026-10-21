@@ -19,7 +19,14 @@ export function useMinimizeOnScroll() {
                 event.target instanceof Element
                     ? event.target
                     : document.scrollingElement
-            if (!pane) return
+            if (
+                !pane ||
+                pane.closest(
+                    "[role=dialog], [data-floating-layer]"
+                ) ||
+                pane.scrollHeight <= pane.clientHeight + 1
+            )
+                return
             const top = pane.scrollTop
             const anchor = anchors.get(pane)
             // A pane's first scroll only marks where it started.

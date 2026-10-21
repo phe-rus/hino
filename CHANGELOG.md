@@ -1,5 +1,10 @@
 # Changelog
 
+## UI 0.1.8
+
+* TabBar: let apps opt into scroll minimization across platforms.
+* Share the scroll minimization hook with app toolbars; ignore modal and popup scrolling.
+
 ## UI 0.1.7
 
 * Materials: quieter rims and focus wells, neutral grounds with reflected accent.

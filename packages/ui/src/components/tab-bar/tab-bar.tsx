@@ -35,7 +35,9 @@ export function TabBar<Tab extends TabBarTab>({
     search,
     label,
     className,
+    minimizeBehavior = "platform",
 }: {
+    minimizeBehavior?: "platform" | "scroll" | "never"
     tabs: readonly Tab[]
     /** Null in places the bar has no tab for. */
     active: Tab["id"] | null
@@ -53,9 +55,12 @@ export function TabBar<Tab extends TabBarTab>({
     const selectionId = `${useId()}-tab-selection`
     const [scrolledAway, setScrolledAway] =
         useMinimizeOnScroll()
-    // Only a bar with a current tab has something to shrink to; Android's never shrinks.
+    // Platform behavior keeps Android expanded; apps can opt into scroll minimization.
     const minimized =
-        scrolledAway && active !== null && !onAndroid()
+        scrolledAway &&
+        active !== null &&
+        minimizeBehavior !== "never" &&
+        (minimizeBehavior === "scroll" || !onAndroid())
     return (
         <nav
             aria-label={label}
