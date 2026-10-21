@@ -23,7 +23,7 @@
   --color-warning: #c93400;
   --color-danger: #d70015;
   --color-glass-highlight: rgb(255 255 255 / 0.55);
-  --color-glass-rim: rgb(227 220 203 / 0.7);
+  --color-glass-rim: rgb(118 108 92 / 0.22);
   --color-glass-tint: rgb(243 239 230 / 0.42);
   --color-glass-specular: rgb(255 255 255 / 0.85);
   --color-glass-sheen: rgb(255 255 255 / 0.32);
@@ -116,9 +116,9 @@
     --color-warning: #ff9f0a;
     --color-danger: #ff453a;
     --color-glass-highlight: rgb(255 255 255 / 0.1);
-    --color-glass-rim: rgb(58 55 50 / 0.75);
+    --color-glass-rim: rgb(255 250 240 / 0.06);
     --color-glass-tint: rgb(26 25 23 / 0.5);
-    --color-glass-specular: rgb(255 250 240 / 0.22);
+    --color-glass-specular: rgb(255 250 240 / 0.12);
     --color-glass-sheen: rgb(255 255 255 / 0.1);
     --color-shadow-floating: rgb(0 0 0 / 0.5);
     --color-shadow-menu: rgb(0 0 0 / 0.55);
@@ -149,9 +149,9 @@
   --color-warning: #ff9f0a;
   --color-danger: #ff453a;
   --color-glass-highlight: rgb(255 255 255 / 0.1);
-  --color-glass-rim: rgb(58 55 50 / 0.75);
+  --color-glass-rim: rgb(255 250 240 / 0.06);
   --color-glass-tint: rgb(26 25 23 / 0.5);
-  --color-glass-specular: rgb(255 250 240 / 0.22);
+  --color-glass-specular: rgb(255 250 240 / 0.12);
   --color-glass-sheen: rgb(255 255 255 / 0.1);
   --color-shadow-floating: rgb(0 0 0 / 0.5);
   --color-shadow-menu: rgb(0 0 0 / 0.55);
@@ -181,7 +181,7 @@
   --color-warning: #c93400;
   --color-danger: #d70015;
   --color-glass-highlight: rgb(255 255 255 / 0.55);
-  --color-glass-rim: rgb(227 220 203 / 0.7);
+  --color-glass-rim: rgb(118 108 92 / 0.22);
   --color-glass-tint: rgb(243 239 230 / 0.42);
   --color-glass-specular: rgb(255 255 255 / 0.85);
   --color-glass-sheen: rgb(255 255 255 / 0.32);

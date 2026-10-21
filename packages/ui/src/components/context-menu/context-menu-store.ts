@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+import type { MenuRect } from "./menu-reveal"
 
 export type ContextMenuAlignX = "start" | "end"
 export type ContextMenuAlignY = "top" | "bottom"
@@ -30,6 +31,7 @@ export interface OpenMenu {
     alignX: ContextMenuAlignX
     /** Which edge of the menu sits at `y`: its top (`top`) or its bottom (`bottom`). */
     alignY: ContextMenuAlignY
+    source?: MenuRect
 }
 
 let menu: OpenMenu | null = null
@@ -72,7 +74,7 @@ export function openContextMenu(
  */
 export function openFollowUpMenu(items: ContextMenuItem[]) {
     if (!last) return
-    menu = { ...last, id: nextId++, items }
+    menu = { ...last, id: nextId++, items, source: undefined }
     last = menu
     emit()
 }
@@ -105,6 +107,12 @@ export function openMenu(
         touch: false,
         alignX: right ? "end" : "start",
         alignY: above ? "bottom" : "top",
+        source: {
+            left: rect.left,
+            top: rect.top,
+            width: rect.width,
+            height: rect.height,
+        },
     }
     last = menu
     emit()

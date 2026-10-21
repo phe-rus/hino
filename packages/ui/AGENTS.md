@@ -230,3 +230,9 @@ the keyboard twice. Sheets focus the panel unless a child requests focus.
 `TabBar` accepts `minimizeBehavior`: platform defaults, scroll on every platform,
 or never. App search toolbars can share `useMinimizeOnScroll`; modal and floating
 panel scrolling does not minimize the navigation behind them.
+
+UI 0.1.10: anchored menus measure before revealing, preserve the trigger's
+rectangle through the opening/closing spring, and restore its opacity on cleanup.
+Point menus retain a compact reveal. Material rim roles differ by appearance;
+regenerate tokens/theme.css after changing tokens/src/color.ts. Geometry tests
+cover a menu flipped above its trigger and an empty/detached anchor.

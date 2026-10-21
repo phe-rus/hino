@@ -2,6 +2,7 @@ import {
     AnimatePresence,
     motion,
     useIsPresent,
+    useReducedMotion,
 } from "motion/react"
 import {
     useEffect,
@@ -16,6 +17,7 @@ import { cn } from "../../lib/class-names"
 import { registerFloatingLayer } from "../../lib/floating-layers"
 import { screenEdges } from "../../lib/screen-edges"
 import { spring } from "../../motion/transitions"
+import { menuReveal } from "./menu-reveal"
 import {
     closeContextMenu,
     getContextMenu,
@@ -39,6 +41,7 @@ export function ContextMenuHost() {
 
 function Menu({ menu }: { menu: OpenMenu }) {
     const present = useIsPresent()
+    const reducedMotion = useReducedMotion()
     const ref = useRef<HTMLDivElement>(null)
     const [position, setPosition] = useState({
         left: menu.x,
@@ -46,18 +49,36 @@ function Menu({ menu }: { menu: OpenMenu }) {
         originX: 0,
         originY: 0,
         maxHeight: undefined as number | undefined,
+        width: 0,
+        height: 0,
+        ready: false,
     })
     const [focused, setFocused] = useState(-1)
 
     useLayoutEffect(() => {
+        if (
+            !menu.source ||
+            !position.ready ||
+            !(menu.anchor instanceof HTMLElement)
+        )
+            return
+        const anchor = menu.anchor
+        const opacity = anchor.style.opacity
+        anchor.style.opacity = "0"
+        return () => {
+            anchor.style.opacity = opacity
+        }
+    }, [menu.anchor, menu.source, position.ready])
+
+    useLayoutEffect(() => {
         const surface = ref.current
-        if (!surface || !present) return
+        if (!surface || !present || !position.ready) return
         const unregister = menu.anchor
             ? registerFloatingLayer(surface, menu.anchor)
             : undefined
         surface.focus()
         return unregister
-    }, [menu.anchor, present])
+    }, [menu.anchor, present, position.ready])
 
     // Keep the whole menu on screen, opening up or left when near an edge. The
     // layout size, not the on-screen one: the menu is still mid-scale here.
@@ -103,6 +124,9 @@ function Menu({ menu }: { menu: OpenMenu }) {
             originY: endY ? 1 : 0,
             // Taller than the screen (a phone on its side): it scrolls.
             maxHeight: bottom - edges.top,
+            width,
+            height: Math.min(height, bottom - edges.top),
+            ready: true,
         })
     }, [menu])
 
@@ -145,9 +169,14 @@ function Menu({ menu }: { menu: OpenMenu }) {
         }
     }, [present])
 
+    const source = menuReveal(
+        position.ready ? menu.source : undefined,
+        position
+    )
     let actionIndex = -1
     return (
         <motion.div
+            key={position.ready ? "surface" : "measure"}
             ref={ref}
             role="menu"
             tabIndex={-1}
@@ -205,85 +234,113 @@ function Menu({ menu }: { menu: OpenMenu }) {
                 left: position.left,
                 top: position.top,
                 maxHeight: position.maxHeight,
-                transformOrigin: `${position.originX * 100}% ${position.originY * 100}%`,
+                transformOrigin: menu.source
+                    ? "50% 50%"
+                    : `${position.originX * 100}% ${position.originY * 100}%`,
+                visibility: position.ready
+                    ? undefined
+                    : "hidden",
             }}
-            initial={{ opacity: 0, scale: 0.88 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{
-                opacity: 0,
-                scale: 0.96,
-                transition: { duration: 0.1 },
+            initial={reducedMotion ? false : source}
+            animate={{
+                opacity: 1,
+                x: 0,
+                y: 0,
+                scaleX: 1,
+                scaleY: 1,
             }}
-            transition={spring.snappy}
+            exit={reducedMotion ? { opacity: 0 } : source}
+            transition={
+                reducedMotion
+                    ? { duration: 0 }
+                    : spring.smooth
+            }
             onContextMenu={(event) => event.preventDefault()}
         >
-            {menu.items.map((item, index) => {
-                if (item === "divider") {
+            <motion.div
+                className="flex flex-col"
+                initial={{ opacity: reducedMotion ? 1 : 0 }}
+                animate={{ opacity: 1 }}
+                transition={{
+                    duration: reducedMotion ? 0 : 0.12,
+                    delay:
+                        reducedMotion || !menu.source
+                            ? 0
+                            : 0.08,
+                }}
+            >
+                {menu.items.map((item, index) => {
+                    if (item === "divider") {
+                        return (
+                            <div
+                                key={`divider-${index}`}
+                                className="mx-2 my-1 h-px bg-separator/80"
+                            />
+                        )
+                    }
+                    if ("heading" in item) {
+                        return (
+                            <span
+                                key={`heading-${item.heading}`}
+                                className="px-2.5 pt-1.5 pb-0.5 text-caption2 font-semibold text-label-tertiary"
+                            >
+                                {item.heading}
+                            </span>
+                        )
+                    }
+                    if (!item.disabled) actionIndex += 1
+                    const current = actionIndex
                     return (
-                        <div
-                            key={`divider-${index}`}
-                            className="mx-2 my-1 h-px bg-separator/80"
-                        />
-                    )
-                }
-                if ("heading" in item) {
-                    return (
-                        <span
-                            key={`heading-${item.heading}`}
-                            className="px-2.5 pt-1.5 pb-0.5 text-caption2 font-semibold text-label-tertiary"
-                        >
-                            {item.heading}
-                        </span>
-                    )
-                }
-                if (!item.disabled) actionIndex += 1
-                const current = actionIndex
-                return (
-                    <button
-                        key={item.label}
-                        type="button"
-                        role="menuitem"
-                        tabIndex={-1}
-                        disabled={item.disabled}
-                        onFocus={() => setFocused(current)}
-                        onPointerEnter={() =>
-                            !item.disabled &&
-                            setFocused(current)
-                        }
-                        onClick={() => {
-                            closeContextMenu()
-                            item.onSelect()
-                        }}
-                        className={cn(
-                            "flex items-center gap-2.5 rounded-lg px-2.5 text-start text-subheadline transition-colors disabled:opacity-40",
-                            menu.touch ? "py-2.5" : "py-1.5",
-                            item.destructive
-                                ? "text-danger"
-                                : "text-label",
-                            focused === current &&
+                        <button
+                            key={item.label}
+                            type="button"
+                            role="menuitem"
+                            tabIndex={-1}
+                            disabled={item.disabled}
+                            onFocus={() =>
+                                setFocused(current)
+                            }
+                            onPointerEnter={() =>
                                 !item.disabled &&
-                                (item.destructive
-                                    ? "bg-danger/10"
-                                    : "bg-fill")
-                        )}
-                    >
-                        <span className="flex w-4 shrink-0 justify-center text-label-secondary">
-                            {item.checked ? (
-                                <CheckIcon
-                                    size={15}
-                                    strokeWidth={2.4}
-                                    className="text-accent-text"
-                                />
-                            ) : (
-                                item.icon
+                                setFocused(current)
+                            }
+                            onClick={() => {
+                                closeContextMenu()
+                                item.onSelect()
+                            }}
+                            className={cn(
+                                "flex items-center gap-2.5 rounded-lg px-2.5 text-start text-subheadline transition-colors disabled:opacity-40",
+                                menu.touch
+                                    ? "py-2.5"
+                                    : "py-1.5",
+                                item.destructive
+                                    ? "text-danger"
+                                    : "text-label",
+                                focused === current &&
+                                    !item.disabled &&
+                                    (item.destructive
+                                        ? "bg-danger/10"
+                                        : "bg-fill")
                             )}
-                        </span>
-                        <span className="grow truncate">
-                            {item.label}
-                        </span>
-                    </button>
-                )
-            })}
+                        >
+                            <span className="flex w-4 shrink-0 justify-center text-label-secondary">
+                                {item.checked ? (
+                                    <CheckIcon
+                                        size={15}
+                                        strokeWidth={2.4}
+                                        className="text-accent-text"
+                                    />
+                                ) : (
+                                    item.icon
+                                )}
+                            </span>
+                            <span className="grow truncate">
+                                {item.label}
+                            </span>
+                        </button>
+                    )
+                })}
+            </motion.div>
         </motion.div>
     )
 }

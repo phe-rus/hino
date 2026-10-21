@@ -1,5 +1,10 @@
 # Changelog
 
+## UI 0.1.10
+
+* Menus: grow from the measured trigger and return to it, preserving source geometry and Reduce Motion.
+* Materials: distinguish light surfaces with a quiet rim and soften dark specular edges.
+
 ## UI 0.1.9
 
 * Scrolling: keep navigation expanded during programmatic positioning and calendar preparation.
