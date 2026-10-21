@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react"
-
-/** How far to scroll, in one direction, before the bar changes. */
-const THRESHOLD = 12
-/** Near the top of the content the bar is always full size. */
-const TOP = 24
+import { minimizeDecision } from "./scroll/minimize-decision"
 
 /**
  * Minimized while you scroll down through content, restored when you scroll
@@ -14,6 +10,27 @@ export function useMinimizeOnScroll() {
     const [minimized, setMinimized] = useState(false)
     useEffect(() => {
         const anchors = new WeakMap<Element, number>()
+        let intent: number | null = null
+        const onIntent = () => {
+            intent = performance.now()
+        }
+        const onKey = (event: KeyboardEvent) => {
+            if (
+                [
+                    "ArrowDown",
+                    "ArrowUp",
+                    "PageDown",
+                    "PageUp",
+                    "Home",
+                    "End",
+                    " ",
+                ].includes(event.key)
+            )
+                onIntent()
+        }
+        const onPointer = (event: PointerEvent) => {
+            if (event.buttons === 1) onIntent()
+        }
         const onScroll = (event: Event) => {
             const pane =
                 event.target instanceof Element
@@ -28,27 +45,48 @@ export function useMinimizeOnScroll() {
             )
                 return
             const top = pane.scrollTop
-            const anchor = anchors.get(pane)
-            // A pane's first scroll only marks where it started.
-            if (anchor === undefined) {
+            const userDriven =
+                intent !== null &&
+                performance.now() - intent < 2000
+            const anchor = anchors.get(pane) ?? 0
+            const next = minimizeDecision(
+                top,
+                anchor,
+                userDriven
+            )
+            if (next !== null) setMinimized(next)
+            if (next !== null || !userDriven)
                 anchors.set(pane, top)
-                return
-            }
-            const delta = top - anchor
-            if (top < TOP || delta < -THRESHOLD)
-                setMinimized(false)
-            else if (delta > THRESHOLD) setMinimized(true)
-            else return
-            anchors.set(pane, top)
         }
+        document.addEventListener("touchmove", onIntent, {
+            passive: true,
+        })
+        document.addEventListener("wheel", onIntent, {
+            passive: true,
+        })
+        document.addEventListener("pointermove", onPointer, {
+            passive: true,
+        })
+        document.addEventListener("keydown", onKey)
         document.addEventListener("scroll", onScroll, {
             capture: true,
             passive: true,
         })
-        return () =>
+        return () => {
             document.removeEventListener("scroll", onScroll, {
                 capture: true,
             })
+            document.removeEventListener(
+                "touchmove",
+                onIntent
+            )
+            document.removeEventListener("wheel", onIntent)
+            document.removeEventListener(
+                "pointermove",
+                onPointer
+            )
+            document.removeEventListener("keydown", onKey)
+        }
     }, [])
     return [minimized, setMinimized] as const
 }

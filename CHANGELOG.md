@@ -1,5 +1,10 @@
 # Changelog
 
+## UI 0.1.9
+
+* Scrolling: keep navigation expanded during programmatic positioning and calendar preparation.
+* Minimize chrome only in response to scrolling gestures or navigation keys.
+
 ## UI 0.1.8
 
 * TabBar: let apps opt into scroll minimization across platforms.
