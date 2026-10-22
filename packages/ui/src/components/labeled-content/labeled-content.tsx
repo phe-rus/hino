@@ -24,7 +24,7 @@ export function LabeledContent({
     return (
         <div
             className={cn(
-                "flex gap-4 px-4 py-3",
+                "flex flex-wrap gap-x-4 gap-y-2.5 px-4 py-3",
                 stacked
                     ? "flex-col items-stretch"
                     : cn(
@@ -34,7 +34,13 @@ export function LabeledContent({
                       )
             )}
         >
-            <div className="flex min-w-[min(40%,9rem)] flex-col">
+            <div
+                className={cn(
+                    "flex min-w-0 flex-1 flex-col break-normal",
+                    !stacked && "basis-36",
+                    wide && "max-sm:basis-auto"
+                )}
+            >
                 <span className="text-subheadline text-label">
                     {label}
                 </span>
@@ -48,7 +54,7 @@ export function LabeledContent({
           no longer fits turns into a pop-up button by itself. */}
             <div
                 className={cn(
-                    "flex min-w-0 justify-end",
+                    "ms-auto flex max-w-full min-w-0 shrink-0 justify-end [&>*]:max-w-full",
                     stacked && "w-full"
                 )}
             >

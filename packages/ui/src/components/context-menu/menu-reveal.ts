@@ -40,3 +40,36 @@ export function menuReveal(
         opacity: 1,
     }
 }
+
+/** Stretch across the action group before opening vertically; reverse on dismissal. */
+export function toolbarMenuReveal(
+    source: MenuRect,
+    toolbar: MenuRect,
+    target: MenuRect
+) {
+    const start = menuReveal(source, target)
+    const stretched = menuReveal(
+        {
+            ...toolbar,
+            top: source.top,
+            height: source.height,
+        },
+        target
+    )
+    return {
+        enter: {
+            x: [start.x, stretched.x, 0],
+            y: [start.y, stretched.y, 0],
+            scaleX: [start.scaleX, stretched.scaleX, 1],
+            scaleY: [start.scaleY, stretched.scaleY, 1],
+            opacity: 1,
+        },
+        exit: {
+            x: [0, stretched.x, start.x],
+            y: [0, stretched.y, start.y],
+            scaleX: [1, stretched.scaleX, start.scaleX],
+            scaleY: [1, stretched.scaleY, start.scaleY],
+            opacity: 1,
+        },
+    }
+}

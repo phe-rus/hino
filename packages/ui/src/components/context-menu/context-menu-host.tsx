@@ -17,7 +17,8 @@ import { cn } from "../../lib/class-names"
 import { registerFloatingLayer } from "../../lib/floating-layers"
 import { screenEdges } from "../../lib/screen-edges"
 import { spring } from "../../motion/transitions"
-import { menuReveal } from "./menu-reveal"
+import { concealMenuSource } from "./conceal-menu-source"
+import { menuReveal, toolbarMenuReveal } from "./menu-reveal"
 import {
     closeContextMenu,
     getContextMenu,
@@ -57,18 +58,30 @@ function Menu({ menu }: { menu: OpenMenu }) {
 
     useLayoutEffect(() => {
         if (
-            !menu.source ||
+            (!menu.source && !menu.toolbar) ||
             !position.ready ||
             !(menu.anchor instanceof HTMLElement)
         )
             return
-        const anchor = menu.anchor
-        const opacity = anchor.style.opacity
-        anchor.style.opacity = "0"
+        const anchor = menu.toolbar ?? menu.anchor
+        const surface = ref.current
+        const restore = concealMenuSource(
+            anchor,
+            Boolean(menu.toolbar)
+        )
         return () => {
-            anchor.style.opacity = opacity
+            const restored = restore()
+            if (
+                restored &&
+                menu.toolbar &&
+                menu.restoreFocus &&
+                menu.anchor instanceof HTMLElement &&
+                (document.activeElement === document.body ||
+                    surface?.contains(document.activeElement))
+            )
+                menu.anchor.focus({ preventScroll: true })
         }
-    }, [menu.anchor, menu.source, position.ready])
+    }, [menu, position.ready])
 
     useLayoutEffect(() => {
         const surface = ref.current
@@ -173,6 +186,14 @@ function Menu({ menu }: { menu: OpenMenu }) {
         position.ready ? menu.source : undefined,
         position
     )
+    const toolbarReveal =
+        menu.source && menu.toolbarRect
+            ? toolbarMenuReveal(
+                  menu.source,
+                  menu.toolbarRect,
+                  position
+              )
+            : undefined
     let actionIndex = -1
     return (
         <motion.div
@@ -234,6 +255,15 @@ function Menu({ menu }: { menu: OpenMenu }) {
                 left: position.left,
                 top: position.top,
                 maxHeight: position.maxHeight,
+                minWidth: menu.toolbarRect
+                    ? Math.min(
+                          Math.max(
+                              200,
+                              menu.toolbarRect.width
+                          ),
+                          window.innerWidth - 24
+                      )
+                    : undefined,
                 transformOrigin: menu.source
                     ? "50% 50%"
                     : `${position.originX * 100}% ${position.originY * 100}%`,
@@ -242,18 +272,34 @@ function Menu({ menu }: { menu: OpenMenu }) {
                     : "hidden",
             }}
             initial={reducedMotion ? false : source}
-            animate={{
-                opacity: 1,
-                x: 0,
-                y: 0,
-                scaleX: 1,
-                scaleY: 1,
-            }}
-            exit={reducedMotion ? { opacity: 0 } : source}
+            animate={
+                toolbarReveal && !reducedMotion
+                    ? toolbarReveal.enter
+                    : {
+                          opacity: 1,
+                          x: 0,
+                          y: 0,
+                          scaleX: 1,
+                          scaleY: 1,
+                      }
+            }
+            exit={
+                reducedMotion
+                    ? { opacity: 0 }
+                    : (toolbarReveal?.exit ?? source)
+            }
             transition={
                 reducedMotion
                     ? { duration: 0 }
-                    : spring.smooth
+                    : toolbarReveal
+                      ? {
+                            duration: 0.34,
+                            times: present
+                                ? [0, 0.35, 1]
+                                : [0, 0.65, 1],
+                            ease: [0.22, 1, 0.36, 1],
+                        }
+                      : spring.smooth
             }
             onContextMenu={(event) => event.preventDefault()}
         >
@@ -266,7 +312,9 @@ function Menu({ menu }: { menu: OpenMenu }) {
                     delay:
                         reducedMotion || !menu.source
                             ? 0
-                            : 0.08,
+                            : menu.toolbar
+                              ? 0.14
+                              : 0.08,
                 }}
             >
                 {menu.items.map((item, index) => {

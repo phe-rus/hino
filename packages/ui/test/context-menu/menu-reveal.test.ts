@@ -1,5 +1,8 @@
 import { expect, test } from "vite-plus/test"
-import { menuReveal } from "../../src/components/context-menu/menu-reveal"
+import {
+    menuReveal,
+    toolbarMenuReveal,
+} from "../../src/components/context-menu/menu-reveal"
 
 test("a menu flipped above the bottom action starts at that action's rectangle", () => {
     const reveal = menuReveal(
@@ -27,4 +30,24 @@ test("point menus and detached empty anchors do not produce invalid transforms",
             target
         ).scaleX
     ).toBe(0.96)
+})
+
+test("toolbar menus stretch horizontally before unfolding and reverse through the same strip", () => {
+    const reveal = toolbarMenuReveal(
+        { left: 312, top: 42, width: 32, height: 32 },
+        { left: 240, top: 42, width: 104, height: 32 },
+        { left: 144, top: 42, width: 200, height: 260 }
+    )
+    expect(
+        reveal.enter.scaleX.map((value) => value * 200)
+    ).toEqual([32, 104, 200])
+    expect(
+        reveal.enter.scaleY.map((value) => value * 260)
+    ).toEqual([32, 32, 260])
+    expect(reveal.exit.x).toEqual(
+        [...reveal.enter.x].reverse()
+    )
+    expect(reveal.exit.scaleY).toEqual(
+        [...reveal.enter.scaleY].reverse()
+    )
 })

@@ -14,6 +14,11 @@ export const contextMenuContent: ComponentContent<
             "Adds a divider and a destructive row, shown in red, for actions like Delete.",
     },
     examples: {
+        toolbar: {
+            title: "A menu from its action group",
+            description:
+                "Pass the action group's element as toolbar to openMenu. The button stretches across the group before unfolding; sibling controls return when it closes.",
+        },
         list: {
             title: "Menus on list rows",
             description:

@@ -1,5 +1,11 @@
 # Changelog
 
+## UI 0.1.11
+
+* Toolbar menus stretch across their action group before unfolding, then reverse on close.
+* Settings rows wrap wide controls below readable labels.
+* Neutral cards share a quiet inset edge in light and dark appearances.
+
 ## UI 0.1.10
 
 * Menus: grow from the measured trigger and return to it, preserving source geometry and Reduce Motion.

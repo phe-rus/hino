@@ -1,3 +1,4 @@
+import { ContextMenuToolbar } from "./examples/context-menu-toolbar"
 import { ContextMenuChecked } from "./examples/context-menu-checked"
 import { toast } from "../toast/toast-store"
 import { defineDocs } from "../../docs/types"
@@ -79,6 +80,7 @@ export const contextMenuDocs = defineDocs<DemoProps>()({
     usage: ContextMenuUsage,
     showcase: ContextMenuShowcase,
     examples: [
+        { id: "toolbar", component: ContextMenuToolbar },
         {
             id: "list",
             component: ContextMenuList,

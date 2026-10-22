@@ -32,6 +32,9 @@ export interface OpenMenu {
     /** Which edge of the menu sits at `y`: its top (`top`) or its bottom (`bottom`). */
     alignY: ContextMenuAlignY
     source?: MenuRect
+    toolbar?: HTMLElement
+    toolbarRect?: MenuRect
+    restoreFocus?: boolean
 }
 
 let menu: OpenMenu | null = null
@@ -91,9 +94,16 @@ export function openMenu(
     {
         edge = "leading",
         above = false,
-    }: { edge?: ContextMenuEdge; above?: boolean } = {}
+        toolbar,
+    }: {
+        edge?: ContextMenuEdge
+        above?: boolean
+        /** Replace this action group with a horizontally expanding menu surface. */
+        toolbar?: HTMLElement
+    } = {}
 ) {
     const rect = anchor.getBoundingClientRect()
+    const toolbarRect = toolbar?.getBoundingClientRect()
     const rtl = getComputedStyle(anchor).direction === "rtl"
     // Trailing is the right edge in left-to-right text, the left edge in right-to-left.
     const right = (edge === "trailing") !== rtl
@@ -101,12 +111,20 @@ export function openMenu(
     menu = {
         id: nextId++,
         anchor,
-        x: right ? rect.right : rect.left,
-        y: above ? rect.top - gap : rect.bottom + gap,
+        x: right
+            ? (toolbarRect ?? rect).right
+            : (toolbarRect ?? rect).left,
+        y: toolbar
+            ? rect.top
+            : above
+              ? rect.top - gap
+              : rect.bottom + gap,
         items,
         touch: false,
         alignX: right ? "end" : "start",
         alignY: above ? "bottom" : "top",
+        toolbar,
+        toolbarRect,
         source: {
             left: rect.left,
             top: rect.top,
@@ -121,9 +139,12 @@ export function openMenu(
 export function closeContextMenu(restoreFocus = true) {
     if (!menu) return
     const anchor = menu.anchor
+    const toolbar = menu.toolbar
+    menu.restoreFocus = restoreFocus
     menu = null
     if (
         restoreFocus &&
+        !toolbar &&
         typeof HTMLElement !== "undefined" &&
         anchor instanceof HTMLElement &&
         anchor.isConnected
