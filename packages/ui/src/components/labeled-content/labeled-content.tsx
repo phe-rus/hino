@@ -55,7 +55,8 @@ export function LabeledContent({
             <div
                 className={cn(
                     "ms-auto flex max-w-full min-w-0 shrink-0 justify-end [&>*]:max-w-full",
-                    stacked && "w-full"
+                    stacked && "w-full",
+                    wide && "max-sm:w-full"
                 )}
             >
                 {children}

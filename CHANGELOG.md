@@ -1,5 +1,10 @@
 # Changelog
 
+## UI 0.1.12
+
+* Keep menus open and refit them when a keyboard resizes the visible viewport.
+* Wide settings controls fill their row after moving below the label.
+
 ## UI 0.1.11
 
 * Toolbar menus stretch across their action group before unfolding, then reverse on close.

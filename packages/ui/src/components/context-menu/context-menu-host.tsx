@@ -18,6 +18,7 @@ import { registerFloatingLayer } from "../../lib/floating-layers"
 import { screenEdges } from "../../lib/screen-edges"
 import { spring } from "../../motion/transitions"
 import { concealMenuSource } from "./conceal-menu-source"
+import { menuPosition } from "./menu-position"
 import { menuReveal, toolbarMenuReveal } from "./menu-reveal"
 import {
     closeContextMenu,
@@ -97,51 +98,56 @@ function Menu({ menu }: { menu: OpenMenu }) {
     // layout size, not the on-screen one: the menu is still mid-scale here.
     useLayoutEffect(() => {
         const element = ref.current
-        if (!element) return
-        const width = element.offsetWidth
-        const height = element.offsetHeight
-        const edges = screenEdges()
-        const right = window.innerWidth - edges.right
-        const bottom = window.innerHeight - edges.bottom
-        // Prefer the requested side of the point; take the other when it won't fit.
-        const fitsAfterX = menu.x + width <= right
-        const fitsBeforeX = menu.x - width >= edges.left
-        const endX =
-            menu.alignX === "end"
-                ? fitsBeforeX || !fitsAfterX
-                : !fitsAfterX
-        const fitsBelow = menu.y + height <= bottom
-        const fitsAbove = menu.y - height >= edges.top
-        const endY =
-            menu.alignY === "bottom"
-                ? fitsAbove || !fitsBelow
-                : !fitsBelow
-        const clamp = (
-            value: number,
-            min: number,
-            max: number
-        ) =>
-            Math.min(Math.max(value, min), Math.max(min, max))
-        setPosition({
-            left: clamp(
-                endX ? menu.x - width : menu.x,
-                edges.left,
-                right - width
-            ),
-            top: clamp(
-                endY ? menu.y - height : menu.y,
-                edges.top,
-                bottom - height
-            ),
-            originX: endX ? 1 : 0,
-            originY: endY ? 1 : 0,
-            // Taller than the screen (a phone on its side): it scrolls.
-            maxHeight: bottom - edges.top,
-            width,
-            height: Math.min(height, bottom - edges.top),
-            ready: true,
-        })
-    }, [menu])
+        if (!element || !present) return
+        const viewport = window.visualViewport
+        let frame = 0
+        const refit = () => {
+            const edges = screenEdges()
+            const left = viewport?.offsetLeft ?? 0
+            const top = viewport?.offsetTop ?? 0
+            setPosition({
+                ...menuPosition(
+                    menu,
+                    {
+                        width: element.offsetWidth,
+                        height: Math.max(
+                            element.offsetHeight,
+                            element.scrollHeight
+                        ),
+                    },
+                    {
+                        left: left + edges.left,
+                        top: top + edges.top,
+                        right:
+                            left +
+                            (viewport?.width ??
+                                window.innerWidth) -
+                            edges.right,
+                        bottom:
+                            top +
+                            (viewport?.height ??
+                                window.innerHeight) -
+                            edges.bottom,
+                    }
+                ),
+                ready: true,
+            })
+        }
+        const schedule = () => {
+            cancelAnimationFrame(frame)
+            frame = requestAnimationFrame(refit)
+        }
+        refit()
+        viewport?.addEventListener("resize", schedule)
+        viewport?.addEventListener("scroll", schedule)
+        window.addEventListener("resize", schedule)
+        return () => {
+            cancelAnimationFrame(frame)
+            viewport?.removeEventListener("resize", schedule)
+            viewport?.removeEventListener("scroll", schedule)
+            window.removeEventListener("resize", schedule)
+        }
+    }, [menu, present])
 
     useEffect(() => {
         if (!present) return
@@ -162,7 +168,6 @@ function Menu({ menu }: { menu: OpenMenu }) {
                 true
             )
         }, 0)
-        window.addEventListener("resize", close)
         window.addEventListener("blur", close)
         window.addEventListener("scroll", onScroll, true)
         return () => {
@@ -172,7 +177,6 @@ function Menu({ menu }: { menu: OpenMenu }) {
                 onPointer,
                 true
             )
-            window.removeEventListener("resize", close)
             window.removeEventListener("blur", close)
             window.removeEventListener(
                 "scroll",
