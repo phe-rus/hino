@@ -97,11 +97,12 @@ function Menu({ menu }: { menu: OpenMenu }) {
     // Keep the whole menu on screen, opening up or left when near an edge. The
     // layout size, not the on-screen one: the menu is still mid-scale here.
     useLayoutEffect(() => {
-        const element = ref.current
-        if (!element || !present) return
+        if (!ref.current || !present) return
         const viewport = window.visualViewport
         let frame = 0
         const refit = () => {
+            const element = ref.current
+            if (!element) return
             const edges = screenEdges()
             const left = viewport?.offsetLeft ?? 0
             const top = viewport?.offsetTop ?? 0
@@ -156,8 +157,30 @@ function Menu({ menu }: { menu: OpenMenu }) {
                 closeContextMenu(false)
         }
         const close = () => closeContextMenu(false)
+        let scrollIntentUntil = 0
+        const markScroll = () => {
+            scrollIntentUntil = performance.now() + 2000
+        }
+        const onScrollKey = (event: KeyboardEvent) => {
+            if (
+                !ref.current?.contains(
+                    event.target as Node
+                ) &&
+                [
+                    "PageDown",
+                    "PageUp",
+                    "Home",
+                    "End",
+                    " ",
+                ].includes(event.key)
+            )
+                markScroll()
+        }
         const onScroll = (event: Event) => {
-            if (!ref.current?.contains(event.target as Node))
+            if (
+                performance.now() < scrollIntentUntil &&
+                !ref.current?.contains(event.target as Node)
+            )
                 close()
         }
         // Opened by a long-press: ignore the finger lifting off.
@@ -169,6 +192,15 @@ function Menu({ menu }: { menu: OpenMenu }) {
             )
         }, 0)
         window.addEventListener("blur", close)
+        window.addEventListener("wheel", markScroll, {
+            capture: true,
+            passive: true,
+        })
+        window.addEventListener("touchmove", markScroll, {
+            capture: true,
+            passive: true,
+        })
+        window.addEventListener("keydown", onScrollKey, true)
         window.addEventListener("scroll", onScroll, true)
         return () => {
             clearTimeout(timer)
@@ -178,6 +210,21 @@ function Menu({ menu }: { menu: OpenMenu }) {
                 true
             )
             window.removeEventListener("blur", close)
+            window.removeEventListener(
+                "wheel",
+                markScroll,
+                true
+            )
+            window.removeEventListener(
+                "touchmove",
+                markScroll,
+                true
+            )
+            window.removeEventListener(
+                "keydown",
+                onScrollKey,
+                true
+            )
             window.removeEventListener(
                 "scroll",
                 onScroll,

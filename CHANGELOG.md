@@ -1,5 +1,10 @@
 # Changelog
 
+## UI 0.1.13
+
+* Keep menus visible during keyboard layout scroll adjustments; deliberate outside scrolling still dismisses them.
+* Measure the current menu surface after its initial measurement element is replaced.
+
 ## UI 0.1.12
 
 * Keep menus open and refit them when a keyboard resizes the visible viewport.
